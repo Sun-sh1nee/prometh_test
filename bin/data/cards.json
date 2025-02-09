@@ -1,0 +1,26 @@
+[
+  {
+    "name": "Attack Boost",
+    "type": "buff",
+    "effect": "Increase attack by 10%",
+    "rarity": "high"
+  },
+  {
+    "name": "Auto Cookie Boost",
+    "type": "cookie",
+    "effect": "Increase cookies per second by 5%",
+    "rarity": "medium"
+  },
+  {
+    "name": "Double Tap",
+    "type": "buff",
+    "effect": "Chance to double click power",
+    "rarity": "low"
+  },
+  {
+    "name": "Lifesteal",
+    "type": "special",
+    "effect": "Heal 10% of attack damage",
+    "rarity": "high"
+  }
+]
