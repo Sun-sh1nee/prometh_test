@@ -2,23 +2,26 @@ package app;
 
 import javafx.application.Application;
 import javafx.scene.Scene;
-import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
-import model.Player;
-import ui.GameMenu;
 
 public class Main extends Application {
     @Override
     public void start(Stage primaryStage) {
-        StackPane root = new StackPane();
-        Player player = new Player("Player1");
-        GameMenu gameMenu = new GameMenu(player);
-        root.getChildren().add(gameMenu);
+        SceneManager.setStage(primaryStage);
 
-        Scene scene = new Scene(root, 400, 700);
-        primaryStage.setScene(scene);
-        primaryStage.setTitle("Cookie Clicker RPG");
-        primaryStage.show();
+        
+        primaryStage.setWidth(500);
+        primaryStage.setHeight(600);
+        primaryStage.setResizable(false);
+        
+        
+        // Create Scenes
+        SceneManager.addScene("HOME", new Scene(new HomeScene(), 500, 600));
+        SceneManager.addScene("RANDOM", new Scene(new RandomScene(), 500, 600));
+        SceneManager.addScene("UPGRADE", new Scene(new UpgradeScene(), 500, 600));
+
+        // Start on Home Scene
+        SceneManager.switchTo("HOME");
     }
 
     public static void main(String[] args) {
