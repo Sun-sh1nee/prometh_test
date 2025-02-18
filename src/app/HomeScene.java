@@ -9,8 +9,8 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 
 public class HomeScene extends BaseScene {
-    private double monsterHP = 90_000_000;
-    private double maxHP = 90_000_000;
+    private double monsterHP = 90000000;
+    private double maxHP = 90000000;
     private Label hpLabel;
     private ProgressBar hpBar;
 
