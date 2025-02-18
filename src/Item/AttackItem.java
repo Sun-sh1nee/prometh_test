@@ -1,6 +1,7 @@
 package Item;
 
 public class AttackItem extends Item {
+	
 	private int attack;
 	private double scalFacStatus;
 	private double scalFacCost;

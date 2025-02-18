@@ -1,7 +1,14 @@
+package player;
+
 import java.util.ArrayList;
 import java.util.List;
 
 import Item.AttackItem;
+import Item.ChanceToDropGemItem;
+import Item.CritDamageItem;
+import Item.CritRateItem;
+import Item.Item;
+import companion.Companion;
 
 public class Player {
 
@@ -10,31 +17,31 @@ public class Player {
   private double critDamage;
   private double chanceToDropGem;
   private List<Item> items;
-  private List<Card> cards;
+  // private List<Card> cards;
   private List<Companion> companions;
 
   public Player() {
     this.items = new ArrayList<>();
-    Item attackItem = new AttackItem();
-    Item critRateItem = new CritRateItem();
-    Item critDamageItem = new CritDamageItem();
-    Item chanceToDropGemItem = new ChanceToDropGemItem();
+    Item attackItem = new AttackItem("123");
+    Item critRateItem = new CritRateItem("123");
+    Item critDamageItem = new CritDamageItem("123");
+    Item chanceToDropGemItem = new ChanceToDropGemItem("123");
     items.add(attackItem);
     items.add(critRateItem);
     items.add(critDamageItem);
     items.add(chanceToDropGemItem);
     updateAllItems();
-    this.cards = new ArrayList<>();
+    // this.cards = new ArrayList<>();
     this.companions = new ArrayList<>();
   }
 
-  public void removeCard(int index) {
-      this.cards.remove(index);
-  }
-
-  public void changeCard(int index, Card card) {
-      this.cards.set(index, card);
-  }
+//  public void removeCard(int index) {
+//      this.cards.remove(index);
+//  }
+//
+//  public void changeCard(int index, Card card) {
+//      this.cards.set(index, card);
+//  }
 
   public void addCompanion(Companion companion) {
     this.companions.add(companion);
@@ -81,13 +88,13 @@ public class Player {
     this.items = items;
   }
 
-  public List<Card> getCards() {
-    return cards;
-  }
-
-  public void setCards(List<Card> cards) {
-    this.cards = cards;
-  }
+//  public List<Card> getCards() {
+//    return cards;
+//  }
+//
+//  public void setCards(List<Card> cards) {
+//    this.cards = cards;
+//  }
 
   public List<Companion> getCompanions() {
     return companions;
@@ -98,7 +105,7 @@ public class Player {
   }
   public void updateAllItems() {
 	  for(Item item : items) {
-		  item.update();
+		  item.updateStat();
 	  }
   }
 }
