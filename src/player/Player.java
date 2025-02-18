@@ -27,15 +27,11 @@ public class Player {
   }
 
   public void removeCard(int index) {
-    if (index >= 0 && index < this.cards.size()) {
       this.cards.remove(index);
-    }
   }
 
   public void changeCard(int index, Card card) {
-    if (index >= 0 && index < this.cards.size()) {
       this.cards.set(index, card);
-    }
   }
 
   public void addCompanion(Companion companion) {
