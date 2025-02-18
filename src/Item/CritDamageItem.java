@@ -1,17 +1,17 @@
 package Item;
 
-public class CritChange extends BaseItem {
-
-	private double critChange;
+public class CritDamageItem extends Item {
+	
+	private double critDamage;
 	private double scalFacCost;
 	private double scalFacStatus;
 	
-	public CritChange(String itemURL) {
-		super("CritChange", 500, itemURL);
+	public CritDamageItem(String itemURL) {
+		super("CritDamageItem", 750, itemURL);
 		
-		setCritChange(0.3);
+		setCritDamage(1.5);
 		setScalFacCost(0.001);
-		setScalFacStatus(0.3);
+		setScalFacStatus(0.35);
 	}
 
 	@Override
@@ -22,16 +22,16 @@ public class CritChange extends BaseItem {
 
 	@Override
 	public void upgrade() {
-		setCritChange(getCritChange() + getScalFacStatus());
-		setCostItem((int)(getCostItem() * (1 + getScalFacCost())));		
+		setCritDamage(getCritDamage() + getScalFacStatus());
+		setCostItem((int)(getCostItem() * (1 + getScalFacCost())));
 	}
 
-	public double getCritChange() {
-		return critChange;
+	public double getCritDamage() {
+		return critDamage;
 	}
 
-	public void setCritChange(double critChange) {
-		this.critChange= critChange;
+	public void setCritDamage(double critDamage) {
+		this.critDamage = critDamage;
 	}
 
 	public double getScalFacStatus() {

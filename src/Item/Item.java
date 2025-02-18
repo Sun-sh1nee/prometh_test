@@ -1,12 +1,12 @@
 package Item;
 
-abstract class BaseItem {
+abstract class Item {
     protected String nameItem;
     protected int levelItem;
     protected int costItem;
     protected String itemURL;
 
-    public BaseItem(String nameItem, int costItem, String itemURL) {
+    public Item(String nameItem, int costItem, String itemURL) {
     	this.nameItem = nameItem;
         this.costItem = costItem;
         this.itemURL = itemURL;

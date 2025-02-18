@@ -1,14 +1,14 @@
 package Item;
 
-public class ChanceToDropGem extends BaseItem{
+public class ChanceToDropGemItem extends Item {
 
 	private double chanceToDropGem;
 	private double scalFacCost;
 	private double scalFacStatus;
 	
 	
-	public ChanceToDropGem(String itemURL) {
-		super("ChangeToDropGem", 1000, itemURL);
+	public ChanceToDropGemItem(String itemURL) {
+		super("ChanceToDropGemItem", 1000, itemURL);
 		
 		setChanceToDropGem(0.1);
 		setScalFacCost(0.0001);

@@ -1,12 +1,12 @@
 package Item;
 
-public class AttackPlayer extends BaseItem {
+public class AttackItem extends Item {
 	private int attack;
 	private double scalFacStatus;
 	private double scalFacCost;
 	
-	public AttackPlayer(String itemURL) {
-		super("DamagePerClick", 100, itemURL);
+	public AttackItem(String itemURL) {
+		super("AttackItem", 100, itemURL);
 		
 		setAttack(100);
 		setScalFacCost(0.08);
