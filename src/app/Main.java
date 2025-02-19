@@ -3,6 +3,11 @@ package app;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import logic.GameLogic;
+import ui.HomeScene;
+import ui.RandomScene;
+import ui.SceneManager;
+import ui.UpgradeScene;
 
 public class Main extends Application {
     @Override
@@ -22,6 +27,7 @@ public class Main extends Application {
 
         // Start on Home Scene
         SceneManager.switchTo("HOME");
+        GameLogic.newGame();
     }
 
     public static void main(String[] args) {

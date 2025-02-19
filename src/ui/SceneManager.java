@@ -1,7 +1,9 @@
-package app;
+package ui;
 
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import logic.GameLogic;
+
 import java.util.HashMap;
 
 public class SceneManager {
@@ -20,6 +22,15 @@ public class SceneManager {
         if (scenes.containsKey(name)) {
             primaryStage.setScene(scenes.get(name));
             primaryStage.show();
+
+            // Ensure DPS keeps running when switching scenes
+            GameLogic.startDPS();
+
+            // Update croissant count in the new scene
+            if (primaryStage.getScene().getRoot() instanceof BaseScene) {
+                ((BaseScene) primaryStage.getScene().getRoot()).croissantCountLabel
+                    .textProperty().bind(GameLogic.croissantCountProperty().asString());
+            }
         }
     }
 }

@@ -1,5 +1,7 @@
-package app;
+package ui;
 
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.geometry.Pos;
 
 import javafx.scene.control.Label;
@@ -8,43 +10,38 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
+import javafx.util.Duration;
+import logic.GameLogic;
 
 public class HomeScene extends BaseScene {
-    private double monsterHP = 90000000;
-    private double maxHP = 90000000;
     private Label hpLabel;
     private ProgressBar hpBar;
 
     public HomeScene() {
-        super(); // Call BaseScene
+        super();
 
-        // 🔹 HP Label
-        hpLabel = new Label(String.format("%,.0f", monsterHP));
-
-        // 🔹 HP Bar
+        // 🔹 Display HP (Binds to GameManager HP property)
+        hpLabel = new Label();
         hpBar = new ProgressBar(1.0);
         hpBar.setStyle("-fx-accent: red;");
         hpBar.setPrefWidth(200);
 
-        // 🔹 State Label
-        Label stateLabel = new Label("STATE XX");
+        // 🔹 Bind HP Label to GameManager (Auto-Updates)
+        hpLabel.textProperty().bind(GameLogic.monsterHPProperty().asString("%.0f"));
+        hpBar.progressProperty().bind(GameLogic.monsterHPProperty().divide(1000)); // Normalize
 
-        // 🔹 Monster Area (Clickable)
+        // 🔹 Monster Clickable Area
         StackPane monsterArea = new StackPane(new Rectangle(120, 120, Color.WHITE));
         monsterArea.setOnMouseClicked(e -> attackMonster());
 
-        // 🔹 Layout for Home Page
-        VBox homeLayout = new VBox(10, hpLabel, hpBar, stateLabel, monsterArea);
+        VBox homeLayout = new VBox(10, hpLabel, hpBar, monsterArea);
         homeLayout.setAlignment(Pos.CENTER);
-
-        // ✅ Set the body content
         switchBody(homeLayout);
+
+        GameLogic.startDPS(); // Ensure DPS starts
     }
 
     private void attackMonster() {
-        monsterHP -= 5_000_000;
-        if (monsterHP < 0) monsterHP = 0;
-        hpLabel.setText(String.format("%,.0f", monsterHP));
-        hpBar.setProgress(monsterHP / maxHP);
+    	GameLogic.reduceMonsterHP(100);
     }
 }

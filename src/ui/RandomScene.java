@@ -1,4 +1,4 @@
-package app;
+package ui;
 
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
