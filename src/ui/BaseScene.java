@@ -32,10 +32,10 @@ public class BaseScene extends VBox {
     protected int damagePerSec;
     
     
-    private StackPane rootContainer; // ครอบทั้ง Main UI และ Settings
-    private VBox mainContainer; // ชั้นแรก (พื้นหลัง)
-    private StackPane settingsContainer; // ชั้น Settings
-    private boolean isSettingsOpen = false;
+    protected StackPane rootContainer; // ครอบทั้ง Main UI และ Settings
+    protected VBox mainContainer; // ชั้นแรก (พื้นหลัง)
+    protected StackPane settingsContainer; // ชั้น Settings
+    protected boolean isSettingsOpen = false;
 
     public BaseScene() {
     	setCroissantCount(0);
@@ -82,14 +82,14 @@ public class BaseScene extends VBox {
         navBar.setStyle("-fx-padding: 10px; -fx-background-color: lightgray;");
 
         Label homeButton = new Label("🏠");
-        Label randomButton = new Label("🎲");
+        Label storyButton = new Label("🎲");
         Label upgradeButton = new Label("⬆️");
 
         homeButton.setOnMouseClicked(e -> SceneManager.switchTo("HOME"));
-        randomButton.setOnMouseClicked(e -> SceneManager.switchTo("RANDOM"));
+        storyButton.setOnMouseClicked(e -> SceneManager.switchTo("STORY"));
         upgradeButton.setOnMouseClicked(e -> SceneManager.switchTo("UPGRADE"));
 
-        navBar.getChildren().addAll(homeButton, randomButton, upgradeButton);
+        navBar.getChildren().addAll(homeButton, storyButton, upgradeButton);
 
         
         mainContainer = new VBox(topBar, bodyContainer, navBar);
