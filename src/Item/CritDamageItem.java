@@ -1,5 +1,7 @@
 package Item;
 
+import logic.GameLogic;
+
 public class CritDamageItem extends Item {
 	
 	private double critDamage;
@@ -17,7 +19,7 @@ public class CritDamageItem extends Item {
 	@Override
 	public void updateStat() {
 		// TODO Auto-generated method stub
-		
+		GameLogic.getPlayer().setCritDamage(critDamage);
 	}
 
 	@Override

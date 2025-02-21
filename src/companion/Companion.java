@@ -5,21 +5,22 @@ public class Companion {
 	private int levelCompanion;
 	private int costCompanion;
 	private String companionURL;
-	private double scalFacCompanion;
+	private double scalFacAttack;
 	private double scalFacPrice;
 	
-	public Companion(int attack , int cost, double scalFacCompanion ,double scalFacPrice,String image) {
+	
+	public Companion(int attack , int cost, double scalFacDamage ,double scalFacPrice,String image) {
 		this.setAttackPerSec(attack);
 		this.setCostCompanion(cost);
-		this.setScalFacCompanion(scalFacCompanion);
+		this.setScalFacAttack(scalFacDamage);
 		this.setScalFacPrice(scalFacPrice);
 		this.setLevelCompanion(1);
-		this.companionURL = ClassLoader.getSystemResource(image).toString();
+//		this.companionURL = ClassLoader.getSystemResource(image).toString();
 		
 	}
 	
 	public void upgrade() {
-		this.setAttackPerSec((int) (attackPerSec * scalFacCompanion));
+		this.setAttackPerSec((int) (attackPerSec * scalFacAttack));
 		this.setCostCompanion((int) (costCompanion * scalFacPrice));
 		this.setLevelCompanion(levelCompanion + 1);
 	}
@@ -47,12 +48,12 @@ public class Companion {
 		this.costCompanion = Math.max(costCompanion, 1);
 	}
 
-	public double getScalFacCompanion() {
-		return scalFacCompanion;
+	public double getScalFacAttack() {
+		return scalFacAttack;
 	}
 
-	public void setScalFacCompanion(double scalFacCompanion) {
-		this.scalFacCompanion = Math.max(scalFacCompanion, 1);
+	public void setScalFacAttack(double scalFacCompanion) {
+		this.scalFacAttack = Math.max(scalFacCompanion, 1);
 	}
 
 	public double getScalFacPrice() {

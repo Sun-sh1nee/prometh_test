@@ -1,5 +1,7 @@
 package Item;
 
+import logic.GameLogic;
+
 public class CritRateItem extends Item {
 
 	private double critChange;
@@ -17,7 +19,7 @@ public class CritRateItem extends Item {
 	@Override
 	public void updateStat() {
 		// TODO Auto-generated method stub
-		
+		GameLogic.getPlayer().setCritRate(critChange);
 	}
 
 	@Override

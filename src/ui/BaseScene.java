@@ -25,8 +25,8 @@ public class BaseScene extends VBox {
     public BaseScene() {
         // Top Bar
     	setCroissantCount(0);
-    	setDamagePerClick(100);
-    	setDamagePerSec(100);
+    	setDamagePerClick(GameLogic.getPlayer().getAttackPerClick());
+    	setDamagePerSec(GameLogic.getDamagePerSec());
     	
         topBar = new HBox(10);
         topBar.setMinHeight(60);
@@ -37,7 +37,8 @@ public class BaseScene extends VBox {
         HBox gemCounter = new HBox(5);
         gemCounter.setAlignment(Pos.CENTER_LEFT);
         Label gemIcon = new Label("💎");
-        Label gemCount = new Label("20");
+        Label gemCount = new Label();
+        gemCount.textProperty().bind(GameLogic.gemCountProperty().asString());
         gemCount.setFont(new Font(18));
         gemCounter.getChildren().addAll(gemIcon, gemCount);
 

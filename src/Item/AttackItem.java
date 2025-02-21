@@ -1,5 +1,7 @@
 package Item;
 
+import logic.GameLogic;
+
 public class AttackItem extends Item {
 	
 	private int attack;
@@ -17,7 +19,7 @@ public class AttackItem extends Item {
 	@Override
 	public void updateStat() {
 		// GameLogic update player status 
-		// ex GameLogic.getInstance().getPlayer().setAttck(attack);
+		GameLogic.getPlayer().setAttackPerClick(attack);
 	}
 
 	@Override

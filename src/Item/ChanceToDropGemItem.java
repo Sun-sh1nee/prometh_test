@@ -1,5 +1,7 @@
 package Item;
 
+import logic.GameLogic;
+
 public class ChanceToDropGemItem extends Item {
 
 	private double chanceToDropGem;
@@ -19,7 +21,7 @@ public class ChanceToDropGemItem extends Item {
 	@Override
 	public void updateStat() {
 		// TODO Auto-generated method stub
-		
+		GameLogic.getPlayer().setChanceToDropGem(chanceToDropGem);
 	}
 
 	@Override

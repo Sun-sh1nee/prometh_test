@@ -3,25 +3,27 @@ package enemy;
 public class Monster {
 	private int monsterHp;
 	private int stageMonster;
+	private int coinDrop;
 	private String monsterURL;
-	private double scalFacMonster;
 	
-	
-	public Monster(int health, int stage,double scal,String imageMonster) {
-		this.setMonsterHp(health);
-		this.setScalFacMonster(scal);
+	public Monster(int baseHealth,int baseCoin,int stage,double scalFactorHp , double scalFactorCoin ,String imageMonster) {
 		this.setStageMonster(stage);
-		this.monsterURL =  ClassLoader.getSystemResource(imageMonster).toString();
+		int monsterHealth = (int) Math.pow(1+scalFactorHp, this.stageMonster-1) * Math.max(1, baseHealth);
+		int monsterCoin = (int) Math.pow(1+scalFactorCoin, this.stageMonster-1) * Math.max(1, baseCoin);
+		this.setMonsterHp(monsterHealth);
+		this.setCoinDrop(monsterCoin);
+//		this.monsterURL =  ClassLoader.getSystemResource(imageMonster).toString();
 		
 	}
 	
 	
-	public void upgrade() {
-		this.monsterHp *= this.scalFacMonster;
+	public int getCoinDrop() {
+		return coinDrop;
 	}
-	
-	public int getNextStage() {
-		return (int) (this.monsterHp * this.scalFacMonster);
+
+
+	public void setCoinDrop(int coinDrop) {
+		this.coinDrop = coinDrop;
 	}
 
 
@@ -52,12 +54,4 @@ public class Monster {
 	}
 
 
-	public double getScalFacMonster() {
-		return scalFacMonster;
-	}
-
-
-	public void setScalFacMonster(double scalFacMonster) {
-		this.scalFacMonster = Math.max(scalFacMonster, 1.0);
-	};
 }
