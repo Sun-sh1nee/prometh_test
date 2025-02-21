@@ -27,8 +27,8 @@ public class HomeScene extends BaseScene {
         hpBar.setPrefWidth(200);
 
         // 🔹 Bind HP Label to GameManager (Auto-Updates)
-        hpLabel.textProperty().bind(GameLogic.monsterHPProperty().asString("%.0f"));
-        hpBar.progressProperty().bind(GameLogic.monsterHPProperty().divide(1000)); // Normalize
+        hpLabel.textProperty().bind(GameLogic.monsterHpHomeProperty().asString("%.0f"));
+        hpBar.progressProperty().bind(GameLogic.monsterHpHomeProperty().divide(GameLogic.getMaxHP())); 
 
         // 🔹 Monster Clickable Area
         StackPane monsterArea = new StackPane(new Rectangle(120, 120, Color.WHITE));
@@ -38,10 +38,10 @@ public class HomeScene extends BaseScene {
         homeLayout.setAlignment(Pos.CENTER);
         switchBody(homeLayout);
 
-        GameLogic.startDPS(); // Ensure DPS starts
+        GameLogic.startDpsHome(); // Ensure DPS starts
     }
 
     private void attackMonster() {
-    	GameLogic.reduceMonsterHP(100);
+    	GameLogic.clickHandle();
     }
 }

@@ -12,6 +12,7 @@ import ui.UpgradeScene;
 public class Main extends Application {
     @Override
     public void start(Stage primaryStage) {
+    	GameLogic.init();
         SceneManager.setStage(primaryStage);
 
         
@@ -27,7 +28,7 @@ public class Main extends Application {
 
         // Start on Home Scene
         SceneManager.switchTo("HOME");
-        GameLogic.newGame();
+        
     }
 
     public static void main(String[] args) {

@@ -14,7 +14,7 @@ public class Companion {
 		this.setScalFacCompanion(scalFacCompanion);
 		this.setScalFacPrice(scalFacPrice);
 		this.setLevelCompanion(1);
-		this.companionURL = ClassLoader.getSystemResource(image).toString();
+//		this.companionURL = ClassLoader.getSystemResource(image).toString();
 		
 	}
 	

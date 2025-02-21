@@ -1,5 +1,7 @@
 package Item;
 
+import logic.GameLogic;
+
 public class CritDamageItem extends Item {
 	
 	private double critDamage;
@@ -10,18 +12,19 @@ public class CritDamageItem extends Item {
 		super("CritDamageItem", 750, itemURL);
 		
 		setCritDamage(1.5);
-		setScalFacCost(0.001);
-		setScalFacStatus(0.35);
+		setScalFacCost(1.001);
+		setScalFacStatus(1.35);
 	}
 
 	@Override
 	public void updateStat() {
-		// TODO Auto-generated method stub
-		
+		// GameLogic update player status 
+		GameLogic.getPlayer().setCritDamage(critDamage);
 	}
 
 	@Override
 	public void upgrade() {
+		this.setLevelItem(levelItem.get()+1);
 		setCritDamage(getCritDamage() + getScalFacStatus());
 		setCostItem((int)(getCostItem() * (1 + getScalFacCost())));
 	}
@@ -48,6 +51,9 @@ public class CritDamageItem extends Item {
 
 	public void setScalFacCost(double scalFacCost) {
 		this.scalFacCost = scalFacCost;
+	}
+	public String toString() {
+		return "CritDamage";
 	}
 	
 	

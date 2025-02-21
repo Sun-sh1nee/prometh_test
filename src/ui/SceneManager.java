@@ -9,7 +9,7 @@ import java.util.HashMap;
 public class SceneManager {
     private static Stage primaryStage;
     private static final HashMap<String, Scene> scenes = new HashMap<>();
-
+    private static String sceneName = "HOME";
     public static void setStage(Stage stage) {
         primaryStage = stage;
     }
@@ -17,20 +17,23 @@ public class SceneManager {
     public static void addScene(String name, Scene scene) {
         scenes.put(name, scene);
     }
-
+    public static String getSceneName() {
+    	return sceneName;
+    }
     public static void switchTo(String name) {
         if (scenes.containsKey(name)) {
+        	sceneName = name;
             primaryStage.setScene(scenes.get(name));
             primaryStage.show();
-
+ 
             // Ensure DPS keeps running when switching scenes
-            GameLogic.startDPS();
+            GameLogic.startDpsHome();
 
             // Update croissant count in the new scene
-            if (primaryStage.getScene().getRoot() instanceof BaseScene) {
-                ((BaseScene) primaryStage.getScene().getRoot()).croissantCountLabel
-                    .textProperty().bind(GameLogic.croissantCountProperty().asString());
-            }
+//            if (primaryStage.getScene().getRoot() instanceof BaseScene) {
+//                ((BaseScene) primaryStage.getScene().getRoot()).croissantCountLabel
+//                    .textProperty().bind(GameLogic.croissantCountProperty().asString());
+//            }
         }
     }
 }

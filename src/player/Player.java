@@ -18,21 +18,22 @@ public class Player {
   private double chanceToDropGem;
   private List<Item> items;
   // private List<Card> cards;
-  private List<Companion> companions;
 
   public Player() {
     this.items = new ArrayList<>();
-    Item attackItem = new AttackItem("123");
-    Item critRateItem = new CritRateItem("123");
-    Item critDamageItem = new CritDamageItem("123");
-    Item chanceToDropGemItem = new ChanceToDropGemItem("123");
+    AttackItem attackItem = new AttackItem("123");
+    CritRateItem critRateItem = new CritRateItem("123");
+    CritDamageItem critDamageItem = new CritDamageItem("123");
+    ChanceToDropGemItem chanceToDropGemItem = new ChanceToDropGemItem("123");
     items.add(attackItem);
     items.add(critRateItem);
     items.add(critDamageItem);
     items.add(chanceToDropGemItem);
-    updateAllItems();
+    this.setAttackPerClick(attackItem.getAttack());
+    this.setChanceToDropGem(chanceToDropGemItem.getChanceToDropGem());;
+    this.setCritDamage(critDamageItem.getCritDamage());
+    this.setCritRate(critRateItem.getCritChance());
     // this.cards = new ArrayList<>();
-    this.companions = new ArrayList<>();
   }
 
 //  public void removeCard(int index) {
@@ -43,9 +44,9 @@ public class Player {
 //      this.cards.set(index, card);
 //  }
 
-  public void addCompanion(Companion companion) {
-    this.companions.add(companion);
-  }
+//  public void addCompanion(Companion companion) {
+//    this.companions.add(companion);
+//  }
 
   // Getters and setters for each field
   public int getAttackPerClick() {
@@ -96,13 +97,13 @@ public class Player {
 //    this.cards = cards;
 //  }
 
-  public List<Companion> getCompanions() {
-    return companions;
-  }
-
-  public void setCompanions(List<Companion> companions) {
-    this.companions = companions;
-  }
+//  public List<Companion> getCompanions() {
+//    return companions;
+//  }
+//
+//  public void setCompanions(List<Companion> companions) {
+//    this.companions = companions;
+//  }
   public void updateAllItems() {
 	  for(Item item : items) {
 		  item.updateStat();
