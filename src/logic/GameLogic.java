@@ -55,21 +55,5 @@ public class GameLogic {
         }));
         dpsThread.setCycleCount(Timeline.INDEFINITE);
         dpsThread.play();
-    	
-    	
-//    	new Thread(()->{
-//    		while (true) {
-//				
-//    			try {
-//    				Platform.runLater(()->reduceMonsterHP(damagePerSec*0.1));
-//    				Thread.sleep(1000);
-//    				
-//    			} catch (InterruptedException e1) {
-//    				// TODO Auto-generated catch block
-//    				e1.printStackTrace();
-//    			}
-//				
-//			}
-//    	}).start();
     }
 }
