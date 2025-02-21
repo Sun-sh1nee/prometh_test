@@ -21,6 +21,9 @@ public class BaseScene extends VBox {
     protected int damagePerSec;
     
     
+    //
+    
+    
 
     public BaseScene() {
         // Top Bar
@@ -53,7 +56,7 @@ public class BaseScene extends VBox {
 
         // Settings Button
         Label settingsButton = new Label("⚙️");
-        settingsButton.setOnMouseClicked(e -> System.out.println("Open Settings"));
+        settingsButton.setOnMouseClicked(e -> System.out.println("OPEN SETTING"));
 
         topBar.getChildren().addAll(gemCounter, croissantInfoPanel, settingsButton);
 
@@ -87,6 +90,8 @@ public class BaseScene extends VBox {
     protected String formatNumber(long number) {
         return String.format("%,d", number); // Formats as 90,000,000
     }
+    
+   
     
     public void switchBody(javafx.scene.Node newContent) {
         bodyContainer.getChildren().clear();

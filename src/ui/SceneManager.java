@@ -27,10 +27,10 @@ public class SceneManager {
             GameLogic.startDPS();
 
             // Update croissant count in the new scene
-            if (primaryStage.getScene().getRoot() instanceof BaseScene) {
-                ((BaseScene) primaryStage.getScene().getRoot()).croissantCountLabel
-                    .textProperty().bind(GameLogic.croissantCountProperty().asString());
-            }
+//            if (primaryStage.getScene().getRoot() instanceof BaseScene) {
+//                ((BaseScene) primaryStage.getScene().getRoot()).croissantCountLabel
+//                    .textProperty().bind(GameLogic.croissantCountProperty().asString());
+//            }
         }
     }
 }

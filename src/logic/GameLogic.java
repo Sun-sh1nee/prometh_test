@@ -2,18 +2,22 @@ package logic;
 
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
+import javafx.application.Platform;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleLongProperty;
 import javafx.util.Duration;
+import player.Player;
 
 public class GameLogic {
     private static SimpleLongProperty croissantCount = new SimpleLongProperty();
     private static SimpleDoubleProperty monsterHP = new SimpleDoubleProperty();
     private static double maxHP;
     private static int damagePerSec;
+    private static Player player;
     private static Timeline dpsThread;
 
     public static void newGame() {
+    	player = new Player();
         croissantCount.set(0);
         monsterHP.set(1000);
         maxHP = 1000;
@@ -46,10 +50,26 @@ public class GameLogic {
             dpsThread.stop();
         }
 
-        dpsThread = new Timeline(new KeyFrame(Duration.seconds(1), e -> {
-            reduceMonsterHP(damagePerSec);
+        dpsThread = new Timeline(new KeyFrame(Duration.seconds(0.1), e -> {
+            reduceMonsterHP(damagePerSec*0.1);
         }));
         dpsThread.setCycleCount(Timeline.INDEFINITE);
         dpsThread.play();
+    	
+    	
+//    	new Thread(()->{
+//    		while (true) {
+//				
+//    			try {
+//    				Platform.runLater(()->reduceMonsterHP(damagePerSec*0.1));
+//    				Thread.sleep(1000);
+//    				
+//    			} catch (InterruptedException e1) {
+//    				// TODO Auto-generated catch block
+//    				e1.printStackTrace();
+//    			}
+//				
+//			}
+//    	}).start();
     }
 }
