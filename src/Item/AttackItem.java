@@ -13,7 +13,7 @@ public class AttackItem extends Item {
 		
 		setAttack(100);
 		setScalFacCost(0.08);
-		setScalFacStatus(0.15);
+		setScalFacStatus(1.15);
 	}
 
 	@Override

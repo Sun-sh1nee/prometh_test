@@ -4,7 +4,7 @@ import logic.GameLogic;
 
 public class CritRateItem extends Item {
 
-	private double critChange;
+	private double critChance;
 	private double scalFacCost;
 	private double scalFacStatus;
 	
@@ -19,21 +19,21 @@ public class CritRateItem extends Item {
 	@Override
 	public void updateStat() {
 		// TODO Auto-generated method stub
-		GameLogic.getPlayer().setCritRate(critChange);
+		GameLogic.getPlayer().setCritRate(critChance);
 	}
 
 	@Override
 	public void upgrade() {
-		setCritChange(getCritChange() + getScalFacStatus());
+		setCritChange(getCritChance() + getScalFacStatus());
 		setCostItem((int)(getCostItem() * (1 + getScalFacCost())));		
 	}
 
-	public double getCritChange() {
-		return critChange;
+	public double getCritChance() {
+		return critChance;
 	}
 
-	public void setCritChange(double critChange) {
-		this.critChange= critChange;
+	public void setCritChange(double critChance) {
+		this.critChance= critChance;
 	}
 
 	public double getScalFacStatus() {

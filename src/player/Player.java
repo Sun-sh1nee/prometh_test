@@ -32,7 +32,7 @@ public class Player {
     this.setAttackPerClick(attackItem.getAttack());
     this.setChanceToDropGem(chanceToDropGemItem.getChanceToDropGem());;
     this.setCritDamage(critDamageItem.getCritDamage());
-    this.setCritRate(critRateItem.getCritChange());
+    this.setCritRate(critRateItem.getCritChance());
     // this.cards = new ArrayList<>();
   }
 

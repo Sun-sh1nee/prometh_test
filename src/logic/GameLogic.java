@@ -1,6 +1,7 @@
 package logic;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 import companion.Companion;
 import enemy.Monster;
@@ -162,7 +163,10 @@ public class GameLogic {
 		if (monsterHpHome.get() <= 0) {
 			monsterHpHome.set(maxHP);
 			addCroissants(monsterHome.getCoinDrop());
-			gemCount.set(gemCount.get() + 2);
+			Random random = new Random();
+	        if (random.nextDouble(100) < player.getChanceToDropGem()) {
+	        	gemCount.set(gemCount.get() + 1);
+	        }
 		}
 	}
 
@@ -180,9 +184,15 @@ public class GameLogic {
 	}
 
 	public static void clickHandle() {
-		reduceMonsterHpHome(player.getAttackPerClick());
+		double damage = player.getAttackPerClick();
+		Random random = new Random();
+        if (random.nextDouble(100) < player.getCritRate()) {
+        	damage *= player.getCritDamage();
+        }
+		
+		reduceMonsterHpHome(damage);
 	}
-
+  
 	public static void startDpsHome() {
 		if (dpsHomeThread != null) {
 			dpsHomeThread.stop();
