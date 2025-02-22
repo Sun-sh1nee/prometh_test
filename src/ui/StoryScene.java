@@ -20,13 +20,13 @@ import logic.GameLogic;
 
 public class StoryScene extends BaseScene {
     private Label hpLabel;
+    private Label stageNowLabel;
     private ProgressBar hpBar;
     private StackPane monsterArea;
     private ProgressBar timerProgress;
-    private Timeline countdown;
+    
     
     private final int marginLayout = 10;
-    private final int totalTime = 5; // Total 30 seconds
 
     public StoryScene() {
         super();
@@ -35,7 +35,7 @@ public class StoryScene extends BaseScene {
     }
     
     private void letStart() {
-    	Label stageNowLabel = new Label();
+    	stageNowLabel = new Label();
     	stageNowLabel.textProperty().bind(GameLogic.storyStateProperty().asString());
     	
     	
@@ -49,7 +49,8 @@ public class StoryScene extends BaseScene {
         hpBar.progressProperty().bind(Bindings.createDoubleBinding(
         	    () -> GameLogic.monsterHpStoryProperty().get() / GameLogic.getMonsterStage(GameLogic.getStage()).getMonsterHp(),
         	    GameLogic.monsterHpStoryProperty()
-        	));
+        ));
+
      
         monsterArea = new StackPane(new Rectangle(120, 120, Color.WHITE));
         monsterArea.setOnMouseClicked(e -> attackMonster());
@@ -59,31 +60,15 @@ public class StoryScene extends BaseScene {
         timerProgress.setStyle("-fx-accent: yellow;");
         timerProgress.setPrefWidth(200);
         timerProgress.setPrefHeight(12);
-        
-        new Thread(()->{
-        	double timeNow = totalTime;
-        	while(timeNow>0) {
-        		
-        		try {
-        			double progess = timeNow/totalTime;
-        			Platform.runLater(() -> timerProgress.setProgress(progess));
-        			
-        			timeNow-=0.1;
-        			Thread.sleep(100);
-        		} catch (InterruptedException e1) {
-        			e1.printStackTrace();
-        		}
-        	}
-        	System.out.println("End");
-        }).start();
+        timerProgress.progressProperty().bind(GameLogic.storyTimerProgressProperty());
+
     	
         VBox storyLayout = new VBox(marginLayout, stageNowLabel, hpLabel, hpBar, timerProgress, monsterArea);
         storyLayout.setAlignment(Pos.CENTER);
         VBox.setMargin(hpBar, new Insets(0, 0, marginLayout * (-1), 0));  // Reduce space below hpBar
         VBox.setMargin(timerProgress, new Insets(0, 0, 0, 0)); // No extra space above timerProgress
         switchBody(storyLayout);
-
-        GameLogic.startDpsStory(); // Ensure DPS starts
+        GameLogic.startStoryMode();
     }
 
 

@@ -4,6 +4,7 @@ import java.util.Random;
 
 import javafx.animation.FadeTransition;
 import javafx.animation.TranslateTransition;
+import javafx.beans.binding.Bindings;
 import javafx.geometry.Pos;
 
 import javafx.scene.control.Label;
@@ -32,7 +33,10 @@ public class HomeScene extends BaseScene {
 
         // 🔹 Bind HP Label to GameManager (Auto-Updates)
         hpLabel.textProperty().bind(GameLogic.monsterHpHomeProperty().asString("%.0f"));
-        hpBar.progressProperty().bind(GameLogic.monsterHpHomeProperty().divide(1000)); // Normalize
+        hpBar.progressProperty().bind(Bindings.createDoubleBinding(
+        	    () -> GameLogic.monsterHpHomeProperty().get() / GameLogic.getMonsterStage(GameLogic.getStage()).getMonsterHp(),
+        	    GameLogic.monsterHpHomeProperty()
+        ));
 
         // 🔹 Monster Clickable Area
         monsterArea = new StackPane(new Rectangle(120, 120, Color.WHITE));

@@ -13,6 +13,7 @@ import ui.UpgradeScene;
 public class Main extends Application {
     @Override
     public void start(Stage primaryStage) {
+    	System.out.println("GAME START");
     	GameLogic.init();
         SceneManager.setStage(primaryStage);
 
