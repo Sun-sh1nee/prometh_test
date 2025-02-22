@@ -1,6 +1,7 @@
 package ui;
 
 import javafx.scene.layout.VBox;
+import javafx.scene.media.AudioClip;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.layout.Border;
@@ -33,6 +34,8 @@ public class BaseScene extends VBox {
     protected VBox mainContainer; // ชั้นแรก (พื้นหลัง)
     protected StackPane settingsContainer; // ชั้น Settings
     protected boolean isSettingsOpen = false;
+   
+    
 
     public BaseScene() {
     	
@@ -97,6 +100,8 @@ public class BaseScene extends VBox {
         rootContainer.setAlignment(Pos.CENTER);
 
         this.getChildren().add(rootContainer);
+        
+        GameLogic.playBackgroundSound();
     }
     
     private void createSettingsPage() {
@@ -121,8 +126,9 @@ public class BaseScene extends VBox {
         Label title = new Label("Settings");
         title.setFont(new Font(20)); // ลดขนาดตัวอักษร
 
-        Button toggleMusicButton = new Button("Music: ON");
-        toggleMusicButton.setOnAction(e -> toggleMusic(toggleMusicButton));
+        Button toggleMusicButton = new Button();
+        toggleMusicButton.textProperty().bind(GameLogic.isMusicProperty().map(value -> value ? "Music: ON" : "Music: OFF"));
+        toggleMusicButton.setOnAction(e -> toggleMusic());
 
         Button closeButton = new Button("Close");
         closeButton.setOnAction(e -> toggleSettingsPage());
@@ -133,7 +139,7 @@ public class BaseScene extends VBox {
         StackPane settingsContent = new StackPane(settingsBox);
         settingsContent.setAlignment(Pos.CENTER);
 
-        // 🟢 StackPane ครอบหน้า Settings + Background
+        // 🟢 StackPane ครอบหน้า Settings + Background	
         settingsContainer = new StackPane(background, settingsContent);
         settingsContainer.setAlignment(Pos.CENTER);
         settingsContainer.setVisible(false); // ซ่อนตอนเริ่มเกม
@@ -142,13 +148,10 @@ public class BaseScene extends VBox {
     private void toggleSettingsPage() {
         isSettingsOpen = !isSettingsOpen;
         settingsContainer.setVisible(isSettingsOpen);
-        System.out.println(isSettingsOpen ? "⚙️ Opened Settings Page" : "❌ Closed Settings Page");
     }
 
-    private void toggleMusic(Button button) {
-        boolean isMusicOn = button.getText().equals("Music: ON");
-        button.setText("Music: " + (isMusicOn ? "OFF" : "ON"));
-        System.out.println("🎵 Music toggled: " + button.getText());
+    private void toggleMusic() {
+        GameLogic.toggleMusic();
     }
     
     
@@ -161,6 +164,7 @@ public class BaseScene extends VBox {
         bodyContainer.getChildren().clear();
         bodyContainer.getChildren().add(newContent);
     }
+
     
     
 }

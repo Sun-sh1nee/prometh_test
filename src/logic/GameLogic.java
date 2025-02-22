@@ -9,12 +9,15 @@ import javafx.animation.KeyFrame;
 
 import javafx.animation.Timeline;
 import javafx.application.Platform;
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleLongProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.scene.Scene;
 import javafx.scene.layout.Priority;
+import javafx.scene.media.AudioClip;
 import javafx.util.Duration;
 import player.Player;
 import ui.BaseScene;
@@ -55,6 +58,10 @@ public class GameLogic {
 	private static double companionBoostCardBoost;
 	private static double extraDamage;
 	//==========================================
+	
+	private static SimpleBooleanProperty isMusic = new SimpleBooleanProperty(true);
+    private static AudioClip backgroundSound;
+	
 	public static void init() {		
 		setStage(1);
 		setDamagePerSec(0);
@@ -87,6 +94,37 @@ public class GameLogic {
 		
 		startDpsHome();
 	}
+	
+	public static void playBackgroundSound() {
+        if (backgroundSound == null) {
+            String backgroundURL = ClassLoader.getSystemResource("sounds/backgroundSound.mp3").toString();
+            backgroundSound = new AudioClip(backgroundURL);
+            backgroundSound.setCycleCount(AudioClip.INDEFINITE);
+        }
+
+        if (isMusic.get()) {
+            backgroundSound.play();
+        } else {
+            backgroundSound.stop();
+        }
+    }
+
+    public static BooleanProperty isMusicProperty() {
+        return isMusic;
+    }
+
+    public static boolean isMusicOn() {
+        return isMusic.get();
+    }
+
+    public static void setMusic(boolean value) {
+        isMusic.set(value);
+        playBackgroundSound(); // ✅ Update music state immediately
+    }
+
+    public static void toggleMusic() {
+        setMusic(!isMusic.get()); // ✅ Toggle and update
+    }
 	
 	public static void startStoryMode() {
 		monsterHpStory.set(monsterStory.get(getStage()).getMonsterHp());
@@ -186,7 +224,6 @@ public class GameLogic {
 	    			if(!SceneManager.getSceneName().equals("STORY")) {
 	    				isStoryBattle = false;
 	    				return;
-	    				
 	    			}
 	    			double progress = timeNow/totalTime;
 	    			Platform.runLater(() -> storyTimerProgress.set(progress));
@@ -324,10 +361,11 @@ public class GameLogic {
 	        }
 
 	        // Proceed to the next stage
+			monsterHome = monsterStory.get(stage);
+			monsterHpHome.set(monsterHpStoryProperty().get());
 	        stage++;
 	        setStoryState();
 	        // monsterHpStory.set(monsterStory.get(stage).getMonsterHp());
-	        monsterHpHome.set(monsterHpStoryProperty().get());
 	        monsterHpStory.set(getMonster().getMonsterHp());
 	        // monsterHpHome.set(monsterStory.get(stage - 1).getMonsterHp());
 	        gemCount.set(gemCount.get() + 2);
