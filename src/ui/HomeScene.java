@@ -59,7 +59,7 @@ public class HomeScene extends BaseScene {
         double randomY = rand.nextDouble() * 150 - 100; // Random Y offset
         double randomSize = rand.nextDouble() * 10 + 20; // Random size between 20-30
         double randomRotation = rand.nextDouble() * 30 * (rand.nextDouble()>0.5?-1:1); // Random rotation
-
+        
         Text damageText = new Text("-" + damage); 
         damageText.setFill(Color.RED);
         damageText.setStyle("-fx-font-weight: bold;");
