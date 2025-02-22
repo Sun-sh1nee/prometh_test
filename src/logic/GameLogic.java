@@ -9,9 +9,13 @@ import javafx.animation.KeyFrame;
 
 import javafx.animation.Timeline;
 import javafx.beans.property.SimpleDoubleProperty;
+import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleLongProperty;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.scene.layout.Priority;
 import javafx.util.Duration;
 import player.Player;
+import ui.BaseScene;
 import ui.SceneManager;
 
 public class GameLogic {
@@ -19,12 +23,17 @@ public class GameLogic {
 	private static SimpleLongProperty gemCount = new SimpleLongProperty();
 	private static SimpleDoubleProperty monsterHpHome = new SimpleDoubleProperty();
 	private static SimpleDoubleProperty monsterHpStory = new SimpleDoubleProperty();
+	private static SimpleIntegerProperty attackPerClick = new SimpleIntegerProperty();
+	private static SimpleIntegerProperty attackPerSec = new SimpleIntegerProperty();
+	private static SimpleStringProperty musicSetting = new SimpleStringProperty();
+	private static SimpleStringProperty effectSetting = new SimpleStringProperty();
+	private static SimpleIntegerProperty storyState = new SimpleIntegerProperty();
 	
 	private static long maxHP;
 //    private static boolean isStory;
-	private static int stage;
 	private static ArrayList<Monster> monsterStory;
 	private static Monster monsterHome;
+	private static int stage;
 	private static int damagePerSec;
 	private static Timeline dpsHomeThread;
 	private static Timeline dpsStoryThread;
@@ -32,22 +41,28 @@ public class GameLogic {
 	private static Companion[] companions = new Companion[6];
 	private static boolean haveCompanion[] = new boolean[6];
 
-	public static void init() {
-
-		stage = 1;
-		croissantCount.set(0);
-		gemCount.set(0);
+	public static void init() {		
+		setStage(1);
+		setDamagePerSec(0);
+		
+		
 		initMonster();
 		initCompanion();
 		monsterHome = monsterStory.get(0);
 		monsterHpHome.set(monsterHome.getMonsterHp());
 		maxHP = monsterHome.getMonsterHp();
 		monsterHpStory.set(monsterStory.get(0).getMonsterHp());
-		updateDamagePerSec();
+		
+		croissantCount.set(0);  // can change in gamelogic
+		gemCount.set(0);		// can change in gamelogic
+		setattackPerClick();
+		setattackPerSec();
+		musicSetting.set("ON"); // not finish
+		setStoryState();
 
 		startDpsHome();
 	}
-
+	
 	public static void startStoryMode() {
 		startDpsStory();
 		startTimer();
@@ -110,7 +125,7 @@ public class GameLogic {
 			}
 
 		}
-		damagePerSec = damageOutPut;
+		setDamagePerSec(damageOutPut);
 	}
 
 	public static void upgradeCompion(int index) {
@@ -149,10 +164,25 @@ public class GameLogic {
 	public static SimpleDoubleProperty monsterHpStoryProperty() {
 		return monsterHpStory;
 	}
-
-	public static long getMaxHP() {
-		return maxHP;
+	
+	public static SimpleIntegerProperty attackPerClickProperty() {
+		return attackPerClick;
 	}
+	
+	public static SimpleIntegerProperty storyStateProperty() {
+		return storyState;
+	}
+
+	
+	public static Monster getMonsterStage(int index) {
+		if ((index >= 30 || index < 0) && haveCompanion[index]) {
+			System.out.println("monster stage index out of bound");
+			return null;
+		}
+		return monsterStory.get(index-1);
+	}
+	
+	
 
 	public static void monsterIsDead() {
 		if (SceneManager.getSceneName().equals("STORY")) {
@@ -168,24 +198,31 @@ public class GameLogic {
 			monsterHpHome.set(maxHP);
 			addCroissants(monsterHome.getCoinDrop());
 			Random random = new Random();
-	        if (random.nextDouble(100) < player.getChanceToDropGem()) {
+			
+	        if (random.nextDouble() < player.getChanceToDropGem()) {
 	        	gemCount.set(gemCount.get() + 1);
 	        }
 		}
 	}
 
 	public static void reduceMonsterHpStory(double amount) {
-		monsterHpStory.set(monsterHpStory.get() - amount);
-		if (monsterHpStory.get() <= 0) {
-			stage += 1;
-			monsterHpStory.set(monsterStory.get(stage-1).getMonsterHp());
-			gemCount.set(gemCount.get() + 2);
-		}
-	}
+	    monsterHpStory.set(monsterHpStory.get() - amount);
+	    if (monsterHpStory.get() <= 0) {
+	        if (stage >= monsterStory.size()) {
+	            System.out.println("🎉 Story Completed! Returning to Home...");
+	            SceneManager.switchTo("HOME"); // Go to Home when Story is completed
+	            return;
+	        }
 
-	public static Player getPlayer() {
-		return player;
+	        // Proceed to the next stage
+	        stage++;
+	        setStoryState();
+	        monsterHpStory.set(monsterStory.get(stage - 1).getMonsterHp());
+	        maxHP = monsterStory.get(stage - 1).getMonsterHp();
+	        gemCount.set(gemCount.get() + 2);
+	    }
 	}
+	
 
 	public static void clickHandle() {
 		double damage = player.getAttackPerClick();
@@ -205,7 +242,7 @@ public class GameLogic {
 			dpsStoryThread.stop();
 		}
 		dpsHomeThread = new Timeline(new KeyFrame(Duration.seconds(1), e -> {
-			reduceMonsterHpHome(damagePerSec);
+			reduceMonsterHpHome(getDamagePerSec());
 		}));
 		dpsHomeThread.setCycleCount(Timeline.INDEFINITE);
 		dpsHomeThread.play();
@@ -220,13 +257,45 @@ public class GameLogic {
 			dpsHomeThread.stop();
 		}
 		dpsStoryThread = new Timeline(new KeyFrame(Duration.seconds(1), e -> {
-			reduceMonsterHpStory(damagePerSec);
+			reduceMonsterHpStory(getDamagePerSec());
 		}));
 		dpsStoryThread.setCycleCount(Timeline.INDEFINITE);
 		dpsStoryThread.play();
 	}
 
+	public static Player getPlayer() {
+		return player;
+	}
+	
+	public static long getMaxHP() {
+		return maxHP;
+	}
+	
 	public static int getDamagePerSec() {
 		return damagePerSec;
+	}
+	
+	public static void setDamagePerSec(int damage) {
+		damagePerSec = damage;
+	}
+	
+	public static int getStage() {
+		return stage;
+	}
+	
+	public static void setStage(int stageNow) {
+		stage = stageNow;
+	}
+	
+	public static void setattackPerClick() {
+		attackPerClick.set(player.getAttackPerClick());
+	}
+	
+	public static void setattackPerSec() {
+		attackPerClick.set(getDamagePerSec());
+	}
+	
+	public static void setStoryState() {
+		storyState.set(stage);
 	}
 }

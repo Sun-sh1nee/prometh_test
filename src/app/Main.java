@@ -7,6 +7,7 @@ import logic.GameLogic;
 import ui.HomeScene;
 import ui.RandomScene;
 import ui.SceneManager;
+import ui.StoryScene;
 import ui.UpgradeScene;
 
 public class Main extends Application {
@@ -24,6 +25,7 @@ public class Main extends Application {
         // Create Scenes
         SceneManager.addScene("HOME", new Scene(new HomeScene(), 500, 600));
         SceneManager.addScene("RANDOM", new Scene(new RandomScene(), 500, 600));
+        SceneManager.addScene("STORY", new Scene(new StoryScene(), 500, 600));
         SceneManager.addScene("UPGRADE", new Scene(new UpgradeScene(), 500, 600));
 
         // Start on Home Scene

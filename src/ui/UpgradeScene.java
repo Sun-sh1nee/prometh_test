@@ -33,6 +33,9 @@ class ComponentPane extends VBox {
     // Upgrade action
     upgradeButton.setOnAction(e -> {
       item.upgrade();
+      if(item instanceof AttackItem) {
+    	  GameLogic.setattackPerClick();
+      }
       // levelLabel.setText("Level: " + component.getLevel()); // Update level
       // display
     });
