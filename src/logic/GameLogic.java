@@ -324,7 +324,7 @@ public class GameLogic {
 
 	
 	public static void setattackPerSec() {
-		attackPerClick.set(getDamagePerSec());
+		attackPerSec.set(getDamagePerSec());
 	}
 	
 	public static void setStoryState() {
