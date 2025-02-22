@@ -13,12 +13,16 @@ import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleLongProperty;
 import javafx.beans.property.SimpleStringProperty;
+import javafx.scene.Scene;
 import javafx.scene.layout.Priority;
 import javafx.util.Duration;
 import player.Player;
 import ui.BaseScene;
+import ui.HomeScene;
+import ui.RandomScene;
 import ui.SceneManager;
 import ui.StoryScene;
+import ui.UpgradeScene;
 
 public class GameLogic {
 	private static SimpleLongProperty croissantCount = new SimpleLongProperty();
@@ -32,8 +36,6 @@ public class GameLogic {
 	private static SimpleIntegerProperty storyState = new SimpleIntegerProperty();
 	private static SimpleDoubleProperty storyTimerProgress = new SimpleDoubleProperty();
 	
-	private static long maxHP;
-//    private static boolean isStory;
 	private static ArrayList<Monster> monsterStory;
 	private static Monster monsterHome;
 	private static int stage;
@@ -51,10 +53,10 @@ public class GameLogic {
 		
 		initMonster();
 		initCompanion();
+		//monsterHome = new Monster(200, 50, 1, 1, 1, null);
 		monsterHome = monsterStory.get(0);
 		monsterHpHome.set(monsterHome.getMonsterHp());
-		maxHP = monsterHome.getMonsterHp();
-		monsterHpStory.set(monsterStory.get(0).getMonsterHp());
+		monsterHpStory.set(monsterStory.get(1).getMonsterHp());
 		
 		croissantCount.set(0);  // can change in gamelogic
 		gemCount.set(0);		// can change in gamelogic
@@ -67,7 +69,7 @@ public class GameLogic {
 	}
 	
 	public static void startStoryMode() {
-		monsterHpStory.set(monsterStory.get(getStage()-1).getMonsterHp());
+		monsterHpStory.set(monsterStory.get(getStage()).getMonsterHp());
 		startDpsStory();
 		startTimer();
 	}
@@ -100,6 +102,7 @@ public class GameLogic {
 	private static void initMonster() {
 		monsterStory = new ArrayList<Monster>();
 		ArrayList<String> images = new ArrayList<String>();
+		monsterStory.add(new Monster(200, 50, 1, 1.0, 1.0, null));
 		for (int i = 1; i <= 30; ++i) {
 			int hpBase = i * 1000;
 			int coinBase = i * 100;
@@ -113,12 +116,12 @@ public class GameLogic {
 	public static Monster getMonster() {
 
 		if (SceneManager.getSceneName().equals("HOME")) {
-			return monsterHome;
+			return getMonsterStage(stage-1);
 		} else if (SceneManager.getSceneName().equals("STORY")) {
-			return monsterStory.get(stage - 1);
-		} else {
-			return monsterStory.get(0);
-		}
+			return getMonsterStage(stage);
+		} 
+		return monsterStory.get(0);
+		
 	}
 
 	private static void initCompanion() {
@@ -204,7 +207,7 @@ public class GameLogic {
 			System.out.println("monster stage index out of bound");
 			return null;
 		}
-		return monsterStory.get(index-1);
+		return monsterStory.get(index);
 	}
 	
 	
@@ -221,12 +224,15 @@ public class GameLogic {
 	        // Proceed to the next stage
 	        stage++;
 	        setStoryState();
-	        monsterHpStory.set(monsterStory.get(stage - 1).getMonsterHp());
-	        maxHP = monsterStory.get(stage - 1).getMonsterHp();
+	        // monsterHpStory.set(monsterStory.get(stage).getMonsterHp());
+	        monsterHpHome.set(monsterHpStoryProperty().get());
+	        monsterHpStory.set(getMonster().getMonsterHp());
+	        // monsterHpHome.set(monsterStory.get(stage - 1).getMonsterHp());
 	        gemCount.set(gemCount.get() + 2);
 	        SceneManager.switchTo("HOME"); 
+	        SceneManager.updateHomeScene();
 		} else {
-			monsterHpHome.set(maxHP);
+			monsterHpHome.set(getMonster().getMonsterHp());
 			addCroissants(monsterHome.getCoinDrop());
 			
 			Random random = new Random();
@@ -294,10 +300,6 @@ public class GameLogic {
 		return player;
 	}
 	
-	public static long getMaxHP() {
-		return maxHP;
-	}
-	
 	public static int getDamagePerSec() {
 		return damagePerSec;
 	}
@@ -316,13 +318,6 @@ public class GameLogic {
 	
 	public static void setattackPerClick() {
 	    attackPerClick.set(player.getAttackPerClick());
-
-	    // ✅ บังคับให้ UI รีเฟรชโดยตั้งค่าใหม่จริงๆ
-	    Platform.runLater(() -> {
-	        double currentHp = monsterHpStory.get();
-	        monsterHpStory.set(currentHp - 1);  // เปลี่ยนค่าเล็กน้อยเพื่อกระตุ้นการอัปเดต UI
-	        monsterHpStory.set(currentHp);  // ตั้งค่ากลับไปเหมือนเดิม
-	    });
 	}
 
 

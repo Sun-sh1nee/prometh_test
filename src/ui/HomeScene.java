@@ -34,7 +34,7 @@ public class HomeScene extends BaseScene {
         // 🔹 Bind HP Label to GameManager (Auto-Updates)
         hpLabel.textProperty().bind(GameLogic.monsterHpHomeProperty().asString("%.0f"));
         hpBar.progressProperty().bind(Bindings.createDoubleBinding(
-        	    () -> GameLogic.monsterHpHomeProperty().get() / GameLogic.getMonsterStage(GameLogic.getStage()).getMonsterHp(),
+        	    () -> GameLogic.monsterHpHomeProperty().get() / GameLogic.getMonster().getMonsterHp(),
         	    GameLogic.monsterHpHomeProperty()
         ));
 
@@ -82,6 +82,16 @@ public class HomeScene extends BaseScene {
 
         moveUp.play();
         fadeOut.play();
+    }
+    
+    public void updateHpMonsterHome() {
+    	
+        hpLabel.textProperty().bind(GameLogic.monsterHpHomeProperty().asString("%.0f"));
+        hpBar.progressProperty().bind(Bindings.createDoubleBinding(
+        	    () -> GameLogic.monsterHpHomeProperty().get() / GameLogic.getMonster().getMonsterHp(),
+        	    GameLogic.monsterHpHomeProperty()
+        ));
+       
     }
     
     

@@ -34,4 +34,8 @@ public class SceneManager {
             }
         }
     }
+    
+    public static void updateHomeScene() {
+    	((HomeScene) scenes.get("HOME").getRoot()).updateHpMonsterHome();
+    }
 }
