@@ -52,6 +52,7 @@ public class GameLogic {
 		startDpsStory();
 		startTimer();
 	}
+	
 
 	private static void startTimer() {
 		
@@ -72,6 +73,14 @@ public class GameLogic {
 			monsterStory.add(new Monster(hpBase, coinBase, i, hpScal, coinScal, null));
 
 		}
+	}
+	
+	public static SimpleLongProperty getCroissantCount() {
+		return croissantCount;
+	}
+
+	public static void setCroissantCount(long croissant) {
+		croissantCount.set(croissant);
 	}
 
 	public static Monster getMonster() {

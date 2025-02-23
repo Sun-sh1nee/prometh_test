@@ -6,12 +6,12 @@ public abstract class Item {
 
     protected String nameItem;
     protected IntegerProperty levelItem;
-    protected int costItem;
+    protected IntegerProperty costItem;
     protected String itemURL;
 
     public Item(String nameItem, int costItem, String itemURL) {
     	this.nameItem = nameItem;
-        this.costItem = costItem;
+    	this.costItem = new SimpleIntegerProperty(costItem);
         this.itemURL = itemURL;
         this.levelItem = new SimpleIntegerProperty(1);
     }
@@ -35,12 +35,12 @@ public abstract class Item {
 		this.levelItem.set(levelItem);
 	}
 
-	public int getCostItem() {
+	public IntegerProperty getCostItem() {
 		return costItem;
 	}
 
 	public void setCostItem(int costItem) {
-		this.costItem = costItem;
+		this.costItem.set(costItem);
 	}
 
 	public String getItemURL() {
