@@ -7,7 +7,7 @@ import javafx.animation.Timeline;
 import javafx.util.Duration;
 import logic.GameLogic;
 
-public class BullsEyeCard extends BaseCard{
+public class BullsEyeCard extends BaseCard implements Activatable{
 	private double critChanceBoost;
 	private boolean isOnCooldown = false;
 	public BullsEyeCard(String name , String image , CardTier tier) {
@@ -34,7 +34,7 @@ public class BullsEyeCard extends BaseCard{
         }
         }
     }
-	
+	@Override
 	public void activate() {
 		if (isOnCooldown) return;
 	    

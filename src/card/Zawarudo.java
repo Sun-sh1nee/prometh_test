@@ -4,7 +4,7 @@ import java.util.Random;
 
 import logic.GameLogic;
 
-public class Zawarudo extends BaseCard {
+public class Zawarudo extends BaseCard implements Activatable{
 	private int seconds;
 	private boolean isOnCooldown = false;
 	public Zawarudo(String name , String image , CardTier tier) {
@@ -31,6 +31,7 @@ public class Zawarudo extends BaseCard {
         }
         }
     }
+	@Override
 	public void activate() {
 		if (isOnCooldown)return;
 //		zawarudooooo

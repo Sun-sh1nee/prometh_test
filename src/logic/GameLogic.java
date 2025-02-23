@@ -3,6 +3,7 @@ package logic;
 import java.util.ArrayList;
 import java.util.Random;
 
+import card.*;
 import companion.Companion;
 import enemy.Monster;
 import javafx.animation.KeyFrame;
@@ -38,8 +39,6 @@ public class GameLogic {
 	private static SimpleStringProperty effectSetting = new SimpleStringProperty();
 	private static SimpleIntegerProperty storyState = new SimpleIntegerProperty();
 	private static SimpleDoubleProperty storyTimerProgress = new SimpleDoubleProperty();
-	
-	
 	private static boolean isStoryBattle;
 	private static ArrayList<Monster> monsterStory;
 	private static Monster monsterHome;
@@ -50,21 +49,25 @@ public class GameLogic {
 	private static Player player = new Player();
 	private static Companion[] companions = new Companion[6];
 	private static boolean haveCompanion[] = new boolean[6];
-	//==========================================
 	private static double damageCardBoost;
 	private static double gemDropChanceCardBoost;
 	private static double critChanceCardBoost;
 	private static double critDamageCardBoost;
 	private static double companionBoostCardBoost;
 	private static double extraDamage;
-	//==========================================
-	
 	private static SimpleBooleanProperty isMusic = new SimpleBooleanProperty(true);
     private static AudioClip backgroundSound;
-	
+//    =================
+    private static BaseCard[] equippedCards = new BaseCard[4]; 
+    private static ArrayList<BaseCard> ownedCards = new ArrayList<>();
+//    =================
 	public static void init() {		
 		setStage(1);
 		setDamagePerSec(0);
+		
+			ownedCards.add(new GlassCannon("testC", "", CardTier.EPIC));
+			ownedCards.add(new BigBangImpactCard("testB", "", CardTier.LEGENDARY));
+			ownedCards.add(new BuffStatCard("testBS", "", CardTier.LEGENDARY));
 		
 		
 		initMonster();
@@ -81,7 +84,7 @@ public class GameLogic {
 		musicSetting.set("ON"); // not finish
 		
 		
-//		========
+
 		damageCardBoost = 0;
 		gemDropChanceCardBoost = 0;
 		critChanceCardBoost = 0;
@@ -89,11 +92,41 @@ public class GameLogic {
 		companionBoostCardBoost = 0;
 		extraDamage = 0;
 		isStoryBattle = false;
-//		========
+
 		setStoryState();
 		
 		startDpsHome();
 	}
+	
+//	========================================================
+	public static BaseCard[] getEquippedCards() {
+	    return equippedCards;
+	}
+
+	public static ArrayList<BaseCard> getOwnedCards() {
+	    return ownedCards;
+	}
+
+	
+	public static void equipCard(BaseCard newCard, int slotIndex) {
+	    // 1) If there's already a card in that slot, cancel its buff if it's a BuffStatCard
+	    BaseCard oldCard = equippedCards[slotIndex];
+	    if (oldCard instanceof BuffStatCard) {
+	        ((BuffStatCard) oldCard).CancelBuff();
+	    }
+	    
+	    // 2) Place the new card in the slot
+	    equippedCards[slotIndex] = newCard;
+	    
+	    // 3) If newCard is a BuffStatCard, apply the buff
+	    if (newCard instanceof BuffStatCard) {
+	        ((BuffStatCard) newCard).applyBuff();
+	    }
+	    
+	    // If you need to do anything else (like re-calc stats), do it here
+	}
+//	========================================================
+	
 	
 	public static void playBackgroundSound() {
         if (backgroundSound == null) {
@@ -132,7 +165,7 @@ public class GameLogic {
 		startTimer();
 	}
 	
-//	==================================================
+
 	public static boolean isStoryBattle() {
 		return isStoryBattle;
 	}
@@ -213,7 +246,7 @@ public class GameLogic {
 	public static void CancelCompanionBoostCardBoost(double decrease) {
 		GameLogic.companionBoostCardBoost -= decrease;
 	}
-// =============================================
+
 	private static void startTimer() {
 		int totalTime = 5;
 		isStoryBattle = true;

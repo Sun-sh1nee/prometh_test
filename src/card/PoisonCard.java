@@ -7,7 +7,7 @@ import javafx.animation.Timeline;
 import javafx.util.Duration;
 import logic.GameLogic;
 
-public class PoisonCard extends BaseCard{
+public class PoisonCard extends BaseCard implements Activatable{
 	
 	private double dotDamage;
 	private boolean isOnCooldown;
@@ -36,7 +36,7 @@ public class PoisonCard extends BaseCard{
         }
         }
     }
-	
+	@Override
 	public void activate() {
 		if (isOnCooldown) return;
 

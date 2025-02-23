@@ -7,7 +7,7 @@ import javafx.animation.Timeline;
 import javafx.util.Duration;
 import logic.GameLogic;
 
-public class GlassCannon extends BaseCard{
+public class GlassCannon extends BaseCard implements Activatable{
 	private double critDamageBoost;
 	private boolean isOnCooldown = false;
 	public GlassCannon(String name , String image , CardTier tier) {
@@ -35,6 +35,7 @@ public class GlassCannon extends BaseCard{
         }
     }
 	
+	@Override
 	public void activate() {
 		if (isOnCooldown)return;
 	    

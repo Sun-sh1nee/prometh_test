@@ -1,6 +1,9 @@
 package ui;
 
 import java.util.Random;
+
+import card.Activatable;
+import card.BaseCard;
 import javafx.animation.*;
 import javafx.application.Platform;
 import javafx.beans.binding.Bindings;
@@ -10,6 +13,7 @@ import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
@@ -24,7 +28,7 @@ public class StoryScene extends BaseScene {
     private ProgressBar hpBar;
     private StackPane monsterArea;
     private ProgressBar timerProgress;
-    
+    private HBox equippedCardsBar;
     
     private final int marginLayout = 10;
 
@@ -61,14 +65,21 @@ public class StoryScene extends BaseScene {
         timerProgress.setPrefWidth(200);
         timerProgress.setPrefHeight(12);
         timerProgress.progressProperty().bind(GameLogic.storyTimerProgressProperty());
+        
+        equippedCardsBar = new HBox(10);
+        equippedCardsBar.setPadding(new Insets(10));
+        equippedCardsBar.setSpacing(20);
+        equippedCardsBar.setAlignment(Pos.CENTER);
+        updateEquippedCardsBar();
 
     	
-        VBox storyLayout = new VBox(marginLayout, stageNowLabel, hpLabel, hpBar, timerProgress, monsterArea);
+        VBox storyLayout = new VBox(marginLayout, stageNowLabel, hpLabel, hpBar, timerProgress, monsterArea , equippedCardsBar);
         storyLayout.setAlignment(Pos.CENTER);
         VBox.setMargin(hpBar, new Insets(0, 0, marginLayout * (-1), 0));  // Reduce space below hpBar
         VBox.setMargin(timerProgress, new Insets(0, 0, 0, 0)); // No extra space above timerProgress
         switchBody(storyLayout);
         GameLogic.startStoryMode();
+        
     }
 
 
@@ -112,7 +123,7 @@ public class StoryScene extends BaseScene {
     
     public void updateStoryUI() {
         System.out.println("🔄 Updating Story UI...");
-
+        
         Label stageLabel = new Label("Stage: " + GameLogic.getStage());
         Button attackButton = new Button("Attack");
         attackButton.setOnMouseClicked(e -> letStart());
@@ -121,5 +132,31 @@ public class StoryScene extends BaseScene {
         storyLayout.setAlignment(Pos.CENTER);
 
         switchBody(storyLayout); // ✅ Now we always pass a valid Node
+    }
+    
+    
+    public void updateEquippedCardsBar() {
+        equippedCardsBar.getChildren().clear();
+
+        BaseCard[] equipped = GameLogic.getEquippedCards();
+        for (int i = 0; i < equipped.length; i++) {
+            BaseCard card = equipped[i];
+            Label cardSlotLabel;
+            if (card == null) {
+                cardSlotLabel = new Label("Empty");
+            } else {
+                cardSlotLabel = new Label(card.getName() + "\n[" + card.getTier() + "]");
+               
+                cardSlotLabel.setOnMouseClicked(e -> {
+                    if (card instanceof Activatable) {
+                        
+                        ((Activatable) card).activate();
+                    }
+                    
+                });
+            }
+            cardSlotLabel.setStyle("-fx-border-color: black; -fx-padding: 5;");
+            equippedCardsBar.getChildren().add(cardSlotLabel);
+        }
     }
 }

@@ -7,7 +7,7 @@ import javafx.animation.Timeline;
 import javafx.util.Duration;
 import logic.GameLogic;
 
-public class HeavyHiterCard extends BaseCard{
+public class HeavyHiterCard extends BaseCard implements Activatable{
 	
 	private double damagePerHit;
 	private boolean isOnCooldown = false;
@@ -35,7 +35,7 @@ public class HeavyHiterCard extends BaseCard{
             }
         }
     }
-	
+	@Override
 	public void activate() {
 		if (isOnCooldown) return;
 

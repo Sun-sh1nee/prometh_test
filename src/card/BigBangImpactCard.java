@@ -8,7 +8,7 @@ import javafx.animation.Timeline;
 import javafx.util.Duration;
 import logic.GameLogic;
 
-public class BigBangImpactCard extends BaseCard{
+public class BigBangImpactCard extends BaseCard implements Activatable{
 	
 	private double damagePerHit;
 	private boolean isOnCooldown = false;
@@ -36,7 +36,7 @@ public class BigBangImpactCard extends BaseCard{
 	        }
         }
     }
-	
+	@Override
 	public void activate() {
 		if (isOnCooldown) return;
 		double damage = GameLogic.getPlayer().getAttackPerClick() * (damagePerHit/100.0);

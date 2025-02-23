@@ -2,13 +2,18 @@ package ui;
 
 import java.util.Random;
 
+import card.*;
 import javafx.animation.FadeTransition;
 import javafx.animation.TranslateTransition;
 import javafx.beans.binding.Bindings;
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.Priority;
+import javafx.scene.layout.Region;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
@@ -21,6 +26,7 @@ public class HomeScene extends BaseScene {
     private Label hpLabel;
     private ProgressBar hpBar;
     private StackPane monsterArea;
+    private HBox equippedCardsBar;
     
     public HomeScene() {
         super();
@@ -30,6 +36,7 @@ public class HomeScene extends BaseScene {
         hpBar = new ProgressBar(1.0);
         hpBar.setStyle("-fx-accent: red;");
         hpBar.setPrefWidth(200);
+        
 
         // 🔹 Bind HP Label to GameManager (Auto-Updates)
         hpLabel.textProperty().bind(GameLogic.monsterHpHomeProperty().asString("%.0f"));
@@ -41,8 +48,14 @@ public class HomeScene extends BaseScene {
         // 🔹 Monster Clickable Area
         monsterArea = new StackPane(new Rectangle(120, 120, Color.WHITE));
         monsterArea.setOnMouseClicked(e -> attackMonster());
-
-        VBox homeLayout = new VBox(10, hpLabel, hpBar, monsterArea);
+        
+        equippedCardsBar = new HBox(10);
+        equippedCardsBar.setPadding(new Insets(10));
+        equippedCardsBar.setSpacing(20);
+        equippedCardsBar.setAlignment(Pos.CENTER);
+        updateEquippedCardsBar();
+       
+        VBox homeLayout = new VBox(10, hpLabel, hpBar, monsterArea,equippedCardsBar);
         homeLayout.setAlignment(Pos.CENTER);
         switchBody(homeLayout);
 
@@ -70,6 +83,7 @@ public class HomeScene extends BaseScene {
         damageText.setScaleY(randomSize / 20);
 
         // u can change to monster area if u want na kub
+        //        dai rai kub
         bodyContainer.getChildren().add(damageText);
         TranslateTransition moveUp = new TranslateTransition(Duration.millis(600), damageText);
         moveUp.setByY(-30);
@@ -92,6 +106,31 @@ public class HomeScene extends BaseScene {
         	    GameLogic.monsterHpHomeProperty()
         ));
        
+    }
+    
+    public void updateEquippedCardsBar() {
+        equippedCardsBar.getChildren().clear();
+
+        BaseCard[] equipped = GameLogic.getEquippedCards();
+        for (int i = 0; i < equipped.length; i++) {
+            BaseCard card = equipped[i];
+            Label cardSlotLabel;
+            if (card == null) {
+                cardSlotLabel = new Label("Empty");
+            } else {
+                cardSlotLabel = new Label(card.getName() + "\n[" + card.getTier() + "]");
+               
+                cardSlotLabel.setOnMouseClicked(e -> {
+                    if (card instanceof Activatable) {
+                        
+                        ((Activatable) card).activate();
+                    }
+                    
+                });
+            }
+            cardSlotLabel.setStyle("-fx-border-color: black; -fx-padding: 5;");
+            equippedCardsBar.getChildren().add(cardSlotLabel);
+        }
     }
     
     

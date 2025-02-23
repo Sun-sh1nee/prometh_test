@@ -30,9 +30,22 @@ public class SceneManager {
             GameLogic.startDpsHome();
 
             if (name.equals("STORY")) {
-                ((StoryScene) scenes.get("STORY").getRoot()).updateStoryUI(); // Reset story when switching
+            	StoryScene storyScene = (StoryScene) scenes.get("STORY").getRoot();
+            	storyScene.updateStoryUI();
+                storyScene.updateEquippedCardsBar();
+            }
+            if (name.equals("HOME")) {
+                HomeScene homeScene = (HomeScene) scenes.get("HOME").getRoot();
+                homeScene.updateEquippedCardsBar();
             }
         }
+    }
+ // If you want direct access to the root node:
+    public static BaseScene getSceneNode(String name) {
+        if (scenes.containsKey(name)) {
+            return (BaseScene) scenes.get(name).getRoot();
+        }
+        return null;
     }
     
     public static void updateHomeScene() {

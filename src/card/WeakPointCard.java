@@ -7,7 +7,7 @@ import javafx.animation.Timeline;
 import javafx.util.Duration;
 import logic.GameLogic;
 
-public class WeakPointCard extends BaseCard{
+public class WeakPointCard extends BaseCard implements Activatable{
 	private double extraBoost;
 	private boolean isOnCooldown = false;
 	public WeakPointCard(String name , String image , CardTier tier) {
@@ -34,7 +34,7 @@ public class WeakPointCard extends BaseCard{
         }
         }
     }
-	
+	@Override
 	public void activate() {
 		if (isOnCooldown)return;
 	    

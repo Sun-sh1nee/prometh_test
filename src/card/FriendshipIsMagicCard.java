@@ -7,7 +7,7 @@ import javafx.animation.Timeline;
 import javafx.util.Duration;
 import logic.GameLogic;
 
-public class FriendshipIsMagicCard extends BaseCard{
+public class FriendshipIsMagicCard extends BaseCard implements Activatable{
 	private double companionBoost;
 	private boolean isOnCooldown = false;
 	public FriendshipIsMagicCard(String name , String image , CardTier tier) {
@@ -34,7 +34,7 @@ public class FriendshipIsMagicCard extends BaseCard{
         }
         }
     }
-	
+	@Override
 	public void activate() {
 		if (isOnCooldown)return;
 	    

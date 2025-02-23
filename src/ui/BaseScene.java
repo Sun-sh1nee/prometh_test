@@ -83,12 +83,18 @@ public class BaseScene extends VBox {
         Label homeButton = new Label("🏠");
         Label storyButton = new Label("🎲");
         Label upgradeButton = new Label("⬆️");
-
+        Label randomButton = new Label("⬆️");
+//        ====================
+        Label inventory = new Label("box");
+        inventory.setOnMouseClicked(e -> SceneManager.switchTo("CARD_EQUIPMENT"));
+//        ====================
+        
         homeButton.setOnMouseClicked(e -> SceneManager.switchTo("HOME"));
         storyButton.setOnMouseClicked(e -> SceneManager.switchTo("STORY"));
         upgradeButton.setOnMouseClicked(e -> SceneManager.switchTo("UPGRADE"));
+        randomButton.setOnMouseClicked(e -> SceneManager.switchTo("RANDOM"));
 
-        navBar.getChildren().addAll(homeButton, storyButton, upgradeButton);
+        navBar.getChildren().addAll(randomButton,homeButton, storyButton, upgradeButton,inventory);
 
         
         mainContainer = new VBox(topBar, bodyContainer, navBar);
