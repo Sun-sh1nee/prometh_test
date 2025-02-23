@@ -1,5 +1,6 @@
 package ui;
 
+import Item.AttackItem;
 import Item.Item;
 import javafx.beans.binding.Bindings;
 import javafx.beans.binding.ObjectBinding;
@@ -61,6 +62,15 @@ class ComponentPane extends VBox {
             item.upgrade();
           }
         });
+    // Upgrade action
+    upgradeButton.setOnAction(e -> {
+      item.upgrade();
+      if(item instanceof AttackItem) {
+    	  GameLogic.setattackPerClick();
+      }
+      // levelLabel.setText("Level: " + component.getLevel()); // Update level
+      // display
+    });
 
     // Layout
     HBox topLayout = new HBox(10, itemBox, nameLabel);

@@ -29,11 +29,13 @@ public class SceneManager {
             // Ensure DPS keeps running when switching scenes
             GameLogic.startDpsHome();
 
-            // Update croissant count in the new scene
-//            if (primaryStage.getScene().getRoot() instanceof BaseScene) {
-//                ((BaseScene) primaryStage.getScene().getRoot()).croissantCountLabel
-//                    .textProperty().bind(GameLogic.croissantCountProperty().asString());
-//            }
+            if (name.equals("STORY")) {
+                ((StoryScene) scenes.get("STORY").getRoot()).updateStoryUI(); // Reset story when switching
+            }
         }
+    }
+    
+    public static void updateHomeScene() {
+    	((HomeScene) scenes.get("HOME").getRoot()).updateHpMonsterHome();
     }
 }
