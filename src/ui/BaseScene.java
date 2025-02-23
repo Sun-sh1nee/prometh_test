@@ -80,21 +80,19 @@ public class BaseScene extends VBox {
         navBar.setAlignment(Pos.CENTER);
         navBar.setStyle("-fx-padding: 10px; -fx-background-color: lightgray;");
 
+        Label randomButton = new Label("⬆️");
         Label homeButton = new Label("🏠");
         Label storyButton = new Label("🎲");
         Label upgradeButton = new Label("⬆️");
-        Label randomButton = new Label("⬆️");
-//        ====================
         Label inventory = new Label("box");
-        inventory.setOnMouseClicked(e -> SceneManager.switchTo("CARD_EQUIPMENT"));
-//        ====================
         
+        inventory.setOnMouseClicked(e -> SceneManager.switchTo("CARD_EQUIPMENT"));
+        randomButton.setOnMouseClicked(e -> SceneManager.switchTo("RANDOM"));
         homeButton.setOnMouseClicked(e -> SceneManager.switchTo("HOME"));
         storyButton.setOnMouseClicked(e -> SceneManager.switchTo("STORY"));
         upgradeButton.setOnMouseClicked(e -> SceneManager.switchTo("UPGRADE"));
-        randomButton.setOnMouseClicked(e -> SceneManager.switchTo("RANDOM"));
 
-        navBar.getChildren().addAll(randomButton,homeButton, storyButton, upgradeButton,inventory);
+        navBar.getChildren().addAll(randomButton, homeButton, storyButton, upgradeButton,inventory);
 
         
         mainContainer = new VBox(topBar, bodyContainer, navBar);

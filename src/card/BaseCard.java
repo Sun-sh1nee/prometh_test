@@ -7,6 +7,7 @@ public abstract class BaseCard {
 
 	public BaseCard(String name , String image , CardTier tier) {
 		this.setName(name);
+		this.setCardURL(image);
 		this.setTier(tier);
 //		String path = ClassLoader.getSystemResource(image).toString();
 //		this.setCardURL(path);
