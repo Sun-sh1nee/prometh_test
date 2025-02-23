@@ -1,5 +1,7 @@
 package ui;
 
+import java.util.ArrayList;
+
 import card.*;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -15,6 +17,7 @@ import logic.GameLogic;
 public class CardEquipmentScene extends BaseScene {
 
     private HBox slotsContainer;
+    private Tooltip arrayTooltips[] = new Tooltip[4];
 
     public CardEquipmentScene() {
         super();
@@ -52,6 +55,8 @@ public class CardEquipmentScene extends BaseScene {
             SceneManager.switchTo("CARD_INVENTORY");
         });
 
+        arrayTooltips[slotIndex] = new Tooltip("No card equipped");
+        Tooltip.install(slotPane, arrayTooltips[slotIndex]);
 
         return slotPane;
     }
@@ -84,13 +89,11 @@ public class CardEquipmentScene extends BaseScene {
             slotPane.getChildren().addAll(cardLabel,imgView);
             
             // Create a Tooltip and attach it to the slot
-            Tooltip tooltip = new Tooltip("No card equipped");
-            Tooltip.install(slotPane, tooltip);
 
             // Update the tooltip text dynamically
            
         	System.out.println("sun");
-            tooltip.setText("Name: " + card.getName() + "\nTier: " + card.getTier() + 
+            arrayTooltips[slotIndex].setText("Name: " + card.getName() + "\nTier: " + card.getTier() + 
                             "\nDetail: " + card.toString());
             
         }
