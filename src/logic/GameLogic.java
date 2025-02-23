@@ -65,7 +65,7 @@ public class GameLogic {
 	public static void init() {		
 		setStage(1);
 		setDamagePerSec(0);
-		
+	
 		
 		initMonster();
 		initCompanion();

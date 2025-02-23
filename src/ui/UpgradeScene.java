@@ -57,22 +57,14 @@ class ComponentPane extends VBox {
     upgradeButton.setOnAction(
         e -> {
           if (GameLogic.getCroissantCount().get() >= item.getCostItem().get()) {
-            GameLogic.setCroissantCount(
-                GameLogic.getCroissantCount().get() - item.getCostItem().get());
+            GameLogic.setCroissantCount(GameLogic.getCroissantCount().get() - item.getCostItem().get());
             item.upgrade();
           }
+		  if(item instanceof AttackItem) {
+			  GameLogic.setattackPerClick();
+		  }
         });
-    // Upgrade action
-    upgradeButton.setOnAction(e -> {
-      item.upgrade();
-      if(item instanceof AttackItem) {
-    	  GameLogic.setattackPerClick();
-      }
-      // levelLabel.setText("Level: " + component.getLevel()); // Update level
-      // display
-    });
 
-    // Layout
     HBox topLayout = new HBox(10, itemBox, nameLabel);
     topLayout.setAlignment(Pos.CENTER);
 
