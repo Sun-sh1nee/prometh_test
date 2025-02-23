@@ -64,11 +64,13 @@ public class GameLogic {
 	public static void init() {		
 		setStage(1);
 		setDamagePerSec(0);
+
 		
-			ownedCards.add(new GlassCannon("testC", "cards/buffCard/default.png", CardTier.EPIC));
-			ownedCards.add(new BigBangImpactCard("testBadsdsadsa", "cards/specialCard/attackCard.png", CardTier.LEGENDARY));
-			ownedCards.add(new BuffStatCard("testBSdasdsa", "cards/specialCard/attackCard.png", CardTier.LEGENDARY));
-		
+//			ownedCards.add(new GlassCannon("testC", "cards/buffCard/default.png", CardTier.EPIC));
+//			ownedCards.add(new BigBangImpactCard("testBadsdsadsa", "cards/specialCard/attackCard.png", CardTier.LEGENDARY));
+//			ownedCards.add(new BuffStatCard("testBSdasdsa", "cards/specialCard/attackCard.png", CardTier.LEGENDARY));
+//		
+
 		
 		initMonster();
 		initCompanion();
@@ -77,8 +79,8 @@ public class GameLogic {
 		monsterHpHome.set(monsterHome.getMonsterHp());
 		monsterHpStory.set(monsterStory.get(1).getMonsterHp());
 		
-		croissantCount.set(0);  // can change in gamelogic
-		gemCount.set(0);		// can change in gamelogic
+		croissantCount.set(2000000000);  // can change in gamelogic
+		gemCount.set(2000000);		// can change in gamelogic
 		setattackPerClick();
 		setattackPerSec();
 		musicSetting.set("ON"); // not finish
@@ -132,6 +134,7 @@ public class GameLogic {
             String backgroundURL = ClassLoader.getSystemResource("sounds/backgroundSound.mp3").toString();
             backgroundSound = new AudioClip(backgroundURL);
             backgroundSound.setCycleCount(AudioClip.INDEFINITE);
+            backgroundSound.setVolume(0.1);
         }
 
         if (isMusic.get()) {
@@ -288,6 +291,14 @@ public class GameLogic {
 			monsterStory.add(new Monster(hpBase, coinBase, i, hpScal, coinScal, null));
 
 		}
+	}
+	
+	public static SimpleLongProperty getCroissantCount() {
+		return croissantCount;
+	}
+
+	public static void setCroissantCount(long croissant) {
+		croissantCount.set(croissant);
 	}
 
 	public static Monster getMonster() {

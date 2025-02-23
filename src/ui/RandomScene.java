@@ -17,6 +17,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.TextAlignment;
+import logic.GameLogic;
 
 import java.util.Random;
 
@@ -89,10 +90,10 @@ public class RandomScene extends BaseScene {
             
             if(!isSpecial) {
             	//System.out.println("normal");
-            	card = new BuffStatCard("Buff Overall Card", "buffCard/default.png", randomTier);
+            	card = new BuffStatCard("Buff Overall Card", "cards/buffCard/default.png", randomTier);
             }else {
             	//System.out.println("special");
-            	card = new BigBangImpactCard("Big Bang pew pew", "specialCard/attackCard.png", randomTier);
+            	card = new BigBangImpactCard("Big Bang pew pew", "cards/specialCard/attackCard.png", randomTier);
             }
             
 
@@ -121,9 +122,8 @@ public class RandomScene extends BaseScene {
 
 
             
-            String cardImagePath = ClassLoader.getSystemResource("cards/" + card.getCardURL()).toString();
-            cardImage.setImage(new Image(cardImagePath));
-            
+            cardImage.setImage(new Image(card.getCardURL()));
+            GameLogic.getOwnedCards().add(card);
 
             
             Label cardNameLabel = new Label(card.getName());
@@ -169,3 +169,4 @@ public class RandomScene extends BaseScene {
     }
 
 }
+

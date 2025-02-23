@@ -1,5 +1,7 @@
 package Item;
 
+import logic.GameLogic;
+
 public class ChanceToDropGemItem extends Item {
 
 	private double chanceToDropGem;
@@ -11,7 +13,7 @@ public class ChanceToDropGemItem extends Item {
 		super("ChanceToDropGemItem", 1000, itemURL);
 		
 		setChanceToDropGem(0.1);
-		setScalFacCost(0.0001);
+		setScalFacCost(0.01);
 		setScalFacStatus(0.40);
 		
 	}
@@ -19,13 +21,15 @@ public class ChanceToDropGemItem extends Item {
 	@Override
 	public void updateStat() {
 		// TODO Auto-generated method stub
-		
+		GameLogic.getPlayer().setChanceToDropGem(chanceToDropGem);
 	}
 
 	@Override
 	public void upgrade() {
+		this.setLevelItem(levelItem.get()+1);
 		setChanceToDropGem(getChanceToDropGem() + getScalFacStatus());
-		setCostItem((int)(getCostItem() * (1 + getScalFacCost())));
+		setCostItem((int)(getCostItem().get() * (1 + getScalFacCost())));
+		updateStat();
 	}
 
 	public double getChanceToDropGem() {
@@ -50,6 +54,10 @@ public class ChanceToDropGemItem extends Item {
 
 	public void setScalFacStatus(double scalFacStatus) {
 		this.scalFacStatus = scalFacStatus;
+	}
+	
+	public String toString() {
+		return "chanceToDropGem";
 	}
 	
 	
