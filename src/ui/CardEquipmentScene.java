@@ -4,6 +4,7 @@ import card.*;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
+import javafx.scene.control.Tooltip;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
@@ -38,7 +39,7 @@ public class CardEquipmentScene extends BaseScene {
     }
 
     private VBox createSlotPane(int slotIndex) {
-    	VBox slotPane = new VBox();
+        VBox slotPane = new VBox();
         slotPane.setPrefSize(100, 140); // size for the card slot
         slotPane.setStyle("-fx-border-color: black; -fx-border-width: 2; "
                         + "-fx-alignment: top_center; -fx-background-color: #eeeeee;");
@@ -47,10 +48,10 @@ public class CardEquipmentScene extends BaseScene {
 
         // When user clicks this slot, open the CardInventoryScene
         slotPane.setOnMouseClicked(e -> {
-            // Pass the slotIndex to the inventory scene
             CardInventoryScene.setTargetSlotIndex(slotIndex);
             SceneManager.switchTo("CARD_INVENTORY");
         });
+
 
         return slotPane;
     }
@@ -61,6 +62,7 @@ public class CardEquipmentScene extends BaseScene {
 
         if (card == null) {
             // Show a plus sign if no card
+        	System.out.println("sun");
             Label plusLabel = new Label("+");
             plusLabel.setStyle("-fx-font-size: 36px; -fx-text-fill: gray;");
             StackPane stackPlus = new StackPane(plusLabel);
@@ -80,6 +82,17 @@ public class CardEquipmentScene extends BaseScene {
             
 
             slotPane.getChildren().addAll(cardLabel,imgView);
+            
+            // Create a Tooltip and attach it to the slot
+            Tooltip tooltip = new Tooltip("No card equipped");
+            Tooltip.install(slotPane, tooltip);
+
+            // Update the tooltip text dynamically
+           
+        	System.out.println("sun");
+            tooltip.setText("Name: " + card.getName() + "\nTier: " + card.getTier() + 
+                            "\nDetail: " + card.toString());
+            
         }
     }
 

@@ -24,7 +24,9 @@ import java.util.Random;
 public class RandomScene extends BaseScene {
     private HBox cardDisplay;
     private static final CardTier[] TIERS = { CardTier.COMMON, CardTier.RARE, CardTier.EPIC, CardTier.LEGENDARY};
-
+    private Label notEnoughGemsLabel;
+    
+    
     public RandomScene() {
         super();
 
@@ -37,9 +39,18 @@ public class RandomScene extends BaseScene {
         
         Button buyOne = new Button("X1 💎 20");
         Button buyTen = new Button("X10 💎 180");
-        
-        buyOne.setOnAction(e -> openChest(1));
-        buyTen.setOnAction(e -> openChest(10));
+       
+
+    	buyOne.setOnMouseEntered(e -> buyOne.setStyle(buyOne.getStyle() + "-fx-opacity: 0.8;"));
+    	buyOne.setOnMouseExited(e -> buyOne.setStyle(buyOne.getStyle().replace("-fx-opacity: 0.8;", "")));
+    	buyOne.setOnAction(e -> openChest(1, 20));
+
+    	buyTen.setOnMouseEntered(e -> buyTen.setStyle(buyTen.getStyle() + "-fx-opacity: 0.8;"));
+    	buyTen.setOnMouseExited(e -> buyTen.setStyle(buyTen.getStyle().replace("-fx-opacity: 0.8;", "")));
+    	buyTen.setOnAction(e -> openChest(10, 180));
+    	
+    	
+
         
         buttonBox.getChildren().addAll(buyOne, buyTen);
         buttonBox.setAlignment(Pos.CENTER);
@@ -47,15 +58,17 @@ public class RandomScene extends BaseScene {
         
         cardDisplay = new HBox(10);
         cardDisplay.setAlignment(Pos.CENTER);
+        cardDisplay.setMaxWidth(Double.MAX_VALUE);
 
         
         ScrollPane scrollPane = new ScrollPane(cardDisplay);
+        cardDisplay.setPrefWidth(scrollPane.getWidth());
+        cardDisplay.setDisable(false);
         scrollPane.setFitToHeight(true);
         scrollPane.setFitToWidth(true);
         scrollPane.setPrefHeight(200);
         scrollPane.setStyle(
-        		"-fx-background: transparent;" +
-        		"-fx-border-color: red;"
+        		"-fx-background: transparent;"
         	);
         VBox.setVgrow(scrollPane, Priority.ALWAYS);
 
@@ -63,16 +76,28 @@ public class RandomScene extends BaseScene {
 
        
         VBox randomLayout = new VBox(10, chestLabel, chest, buttonBox, scrollPane);
+        randomLayout.setStyle(
+        	    "-fx-padding: 20px; " +
+        	    "-fx-border-radius: 15px;"
+        	);
+
         randomLayout.setAlignment(Pos.CENTER);
 
         
         switchBody(randomLayout);
     }
 
-    private void openChest(int times) {
+    private void openChest(int times, int costGem) {
         Random random = new Random();
         cardDisplay.getChildren().clear();
 
+        if(!GameLogic.reduceGemCount(costGem)) {
+        	notEnoughGemsLabel = new Label("❌ Not Enough Gems!");
+        	notEnoughGemsLabel.setStyle("-fx-text-fill: red; -fx-font-size: 14px; -fx-font-weight: bold;");
+            cardDisplay.getChildren().add(notEnoughGemsLabel);
+        	return;
+        }
+        
         for (int i = 0; i < times; i++) {
             
         	double tier = random.nextDouble();
@@ -97,14 +122,16 @@ public class RandomScene extends BaseScene {
             }
             
 
-            // ✅ Create card UI block
+            
             VBox cardBlock = new VBox(5);
             cardBlock.setAlignment(Pos.CENTER);
             cardBlock.setStyle(
-            	    "-fx-padding: 5; " +
+            	    "-fx-padding: 10px; " +
             	    "-fx-border-width: 5px; " +
-            	    "-fx-background-color: white; " +
-            	    "-fx-border-color: " + getTierStyle(card.getTier()) + ";"
+            	    "-fx-border-radius: 10px; " + 
+            	    "-fx-background-radius: 10px; " +
+            	    "-fx-background-color: white; " + 
+            	    "-fx-border-color: " + getTierStyle(card.getTier()) + "; "
             	);
             
             cardBlock.setMinWidth(110);
@@ -117,8 +144,8 @@ public class RandomScene extends BaseScene {
             ImageView cardImage = new ImageView();
             cardImage.setPreserveRatio(true); 
             cardImage.setSmooth(true); 
-            cardImage.setFitWidth(100);
-            cardImage.setFitHeight(120);
+            cardImage.setFitWidth(80);
+            cardImage.setFitHeight(100);
 
 
             

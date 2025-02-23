@@ -40,7 +40,7 @@ public class BaseScene extends VBox {
     public BaseScene() {
     	
         topBar = new HBox(10);
-        topBar.setMinHeight(60);
+        topBar.setPrefHeight(80);
         topBar.setAlignment(Pos.CENTER);
         topBar.setStyle("-fx-padding: 10px; -fx-background-color: lightgray;");
 
@@ -72,11 +72,11 @@ public class BaseScene extends VBox {
         topBar.getChildren().addAll(gemCounter, croissantInfoPanel, settingsButton);
 
         bodyContainer = new StackPane();
-        bodyContainer.setMinHeight(400);
+        bodyContainer.setMaxHeight(440);
         VBox.setVgrow(bodyContainer, Priority.ALWAYS);
 
         navBar = new HBox(20);
-        navBar.setMinHeight(80);
+        navBar.setPrefHeight(80);
         navBar.setAlignment(Pos.CENTER);
         navBar.setStyle("-fx-padding: 10px; -fx-background-color: lightgray;");
 

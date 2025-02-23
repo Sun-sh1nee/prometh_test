@@ -79,8 +79,8 @@ public class GameLogic {
 		monsterHpHome.set(monsterHome.getMonsterHp());
 		monsterHpStory.set(monsterStory.get(1).getMonsterHp());
 		
-		croissantCount.set(2000000000);  // can change in gamelogic
-		gemCount.set(2000000);		// can change in gamelogic
+		croissantCount.set(200000000);  // can change in gamelogic
+		gemCount.set(50000);		// can change in gamelogic
 		setattackPerClick();
 		setattackPerSec();
 		musicSetting.set("ON"); // not finish
@@ -288,6 +288,7 @@ public class GameLogic {
 			int coinBase = i * 100;
 			double coinScal = 1;
 			double hpScal = 1;
+			System.out.println(hpBase);
 			monsterStory.add(new Monster(hpBase, coinBase, i, hpScal, coinScal, null));
 
 		}
@@ -427,31 +428,16 @@ public class GameLogic {
 
 	public static void reduceMonsterHpHome(double amount) {
 		
-		
-//		if(damageCardBoost > 0)amount *= damageCardBoost;
-//		Random random = new Random();
-//		double critRate = player.getCritRate() + critChanceCardBoost;
-//		if (random.nextDouble(100) < critRate) {
-//			amount *= (player.getCritDamage() + critDamageCardBoost);
-//		}
-//		if(extraDamage > 0)amount *= (1 + (extraDamage/100.0));
-		
-		monsterHpHome.set(monsterHpHome.get() - amount);
-		if (monsterHpHome.get() <= 0) {
-			monsterIsDead();
-		}
+		monsterHpHome.set(monsterHpHome.get() - amount<=0?0:monsterHpHome.get() - amount);
+	    if (monsterHpHome.get() <= 0) {
+	    	monsterIsDead();
+	    	
+	    }
 	}
 
 	public static void reduceMonsterHpStory(double amount) {
-//		if(damageCardBoost > 0)amount *= damageCardBoost;
-//		Random random = new Random();
-//		double critRate = player.getCritRate() + critChanceCardBoost;
-//		if (random.nextDouble(100) < critRate) {
-//			amount *= (player.getCritDamage() + critDamageCardBoost);
-//		}
-//		if(extraDamage > 0)amount *= (1 + (extraDamage/100.0));
-		
-	    monsterHpStory.set(monsterHpStory.get() - amount);
+
+	    monsterHpStory.set(monsterHpStory.get() - amount<=0?0:monsterHpStory.get() - amount);
 	    if (monsterHpStory.get() <= 0) {
 	    	monsterIsDead();
 	    }
@@ -525,7 +511,11 @@ public class GameLogic {
 	    attackPerClick.set(player.getAttackPerClick());
 	}
 
-
+	public static boolean reduceGemCount(int amount) {
+		if(gemCountProperty().get() < amount) return false;
+		gemCount.set(gemCountProperty().get() - amount);
+		return true;
+	}
 
 	
 	public static void setattackPerSec() {
