@@ -38,6 +38,10 @@ public class SceneManager {
                 HomeScene homeScene = (HomeScene) scenes.get("HOME").getRoot();
                 homeScene.updateEquippedCardsBar();
             }
+            if (name.equals("CARD_INVENTORY")) {
+                CardInventoryScene inventoryScene = (CardInventoryScene) scenes.get("CARD_INVENTORY").getRoot();
+                inventoryScene.updateEquippedCardsInventory();
+            }
         }
     }
  // If you want direct access to the root node:

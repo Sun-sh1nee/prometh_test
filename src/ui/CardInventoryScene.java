@@ -6,6 +6,8 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
@@ -17,6 +19,7 @@ public class CardInventoryScene extends BaseScene {
     private static int targetSlotIndex = 0; // which slot we're equipping to
     private VBox inventoryContainer;
     private Label hoverInfoLabel; // the "yellow box" for stats
+    private FlowPane cardsPane;
 
     public static void setTargetSlotIndex(int slotIndex) {
         targetSlotIndex = slotIndex;
@@ -29,7 +32,7 @@ public class CardInventoryScene extends BaseScene {
         title.setStyle("-fx-font-size: 24px; -fx-font-weight: bold;");
 
         // FlowPane for displaying owned cards
-        FlowPane cardsPane = new FlowPane();
+        cardsPane = new FlowPane();
         cardsPane.setHgap(10);
         cardsPane.setVgap(10);
         cardsPane.setPadding(new Insets(10));
@@ -54,20 +57,20 @@ public class CardInventoryScene extends BaseScene {
         hoverInfoLabel.setMinHeight(120);
 
 
-        // Populate with owned cards
         ArrayList<BaseCard> ownedCards = GameLogic.getOwnedCards();
-//        BaseCard[] equippedCardsAry = GameLogic.getEquippedCards(); 
-//        ArrayList<BaseCard> equippedCards = GameLogic.getOwnedCards();
-//        for(BaseCard equip : equippedCardsAry) {
-//        	equippedCards.add(equip);
-//    	}
-        
+        BaseCard[] equippedCardsAry = GameLogic.getEquippedCards(); 
+
+        ArrayList<BaseCard> equippedCards = new ArrayList<>();
+        for (BaseCard equip : equippedCardsAry) {
+            equippedCards.add(equip);
+        }
+
         for (BaseCard card : ownedCards) {
-//        	if(!equippedCards.contains(card)) {
-        		StackPane cardView = createCardView(card);
-            	cardsPane.getChildren().add(cardView);
-//        	}
-        	
+  
+            if (!equippedCards.contains(card)) { 
+            	VBox cardView = createCardView(card);
+                cardsPane.getChildren().add(cardView);
+            }
         }
 
         // A button to close and go back to equipment scene (if user wants to cancel)
@@ -75,22 +78,27 @@ public class CardInventoryScene extends BaseScene {
         closeButton.setStyle("-fx-border-color: black; -fx-padding: 5; -fx-background-color: lightgray;");
         closeButton.setOnMouseClicked(e -> SceneManager.switchTo("CARD_EQUIPMENT"));
 
-        inventoryContainer = new VBox(15, title, scrollPane, hoverInfoLabel, closeButton);
-        inventoryContainer.setAlignment(Pos.CENTER);
+        inventoryContainer = new VBox(15, closeButton, scrollPane, hoverInfoLabel);
+        inventoryContainer.setAlignment(Pos.BOTTOM_CENTER);
         inventoryContainer.setPadding(new Insets(20));
 
         switchBody(inventoryContainer);
     }
 
-    private StackPane createCardView(BaseCard card) {
-        StackPane cardPane = new StackPane();
+    private VBox createCardView(BaseCard card) {
+    	VBox cardPane = new VBox();
         cardPane.setPrefSize(80, 100);
-        cardPane.setStyle("-fx-border-color: black; -fx-background-color: #dddddd; -fx-alignment: center;");
-
-        Label cardLabel = new Label(card.getName() + "\n[" + card.getTier() + "]");
-        cardLabel.setStyle("-fx-text-alignment: center; -fx-font-size: 12;");
-        cardPane.getChildren().add(cardLabel);
-
+        cardPane.setSpacing(2);
+        cardPane.setStyle("-fx-border-color: transparent; -fx-border-color: black; -fx-background-color: transparent; -fx-alignment: top_center;");
+        
+        ImageView imgView = new ImageView(new Image(card.getCardURL()));
+        imgView.setFitWidth(60);
+        imgView.setFitHeight(80);
+        imgView.setPreserveRatio(true);
+        Label cardLabel = new Label(card.getName() + "\n[" + card.getTier() + "]");  
+        cardLabel.setStyle("-fx-text-alignment: center; -fx-font-size: 8;");
+        cardPane.getChildren().addAll(cardLabel,imgView);
+        
         // Show toString() on hover
         cardPane.setOnMouseEntered(e -> hoverInfoLabel.setText(card.toString()));
         cardPane.setOnMouseExited(e -> hoverInfoLabel.setText("Hover a card to see details"));
@@ -110,4 +118,25 @@ public class CardInventoryScene extends BaseScene {
 
         return cardPane;
     }
+    
+    public void updateEquippedCardsInventory() {
+    	 cardsPane.getChildren().clear();
+    	 ArrayList<BaseCard> ownedCards = GameLogic.getOwnedCards();
+         BaseCard[] equippedCardsAry = GameLogic.getEquippedCards(); 
+
+         ArrayList<BaseCard> equippedCards = new ArrayList<>();
+         for (BaseCard equip : equippedCardsAry) {
+             equippedCards.add(equip);
+         }
+
+         for (BaseCard card : ownedCards) {
+   
+             if (!equippedCards.contains(card)) { 
+             	VBox cardView = createCardView(card);
+                 cardsPane.getChildren().add(cardView);
+             }
+         }
+    }
+    
+    
 }

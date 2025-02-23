@@ -13,6 +13,8 @@ import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
@@ -84,7 +86,7 @@ public class StoryScene extends BaseScene {
 
 
     private void attackMonster() {
-    	int damage = GameLogic.getPlayer().getAttackPerClick(); // Use actual damage value here
+    	int damage = (int) GameLogic.clickHandle(); // Use actual damage value here
         GameLogic.reduceMonsterHpStory(damage);
 
         // Random damage animation
@@ -136,18 +138,36 @@ public class StoryScene extends BaseScene {
     
     
     public void updateEquippedCardsBar() {
-        equippedCardsBar.getChildren().clear();
-
+//        equippedCardsBar.getChildren().clear();
+    	equippedCardsBar = new HBox(10);
+        equippedCardsBar.setPadding(new Insets(10));
+        equippedCardsBar.setSpacing(20);
+        equippedCardsBar.setAlignment(Pos.CENTER);
+        
         BaseCard[] equipped = GameLogic.getEquippedCards();
+        
+        
+        
         for (int i = 0; i < equipped.length; i++) {
+        	VBox cardPane = new VBox();
+        	cardPane.setPrefSize(60, 80); // size for the card slot
+        	cardPane.setStyle("-fx-border-color: black; -fx-border-width: 1; "
+	                        + "-fx-alignment: top_center; -fx-background-color: #eeeeee;");
+        	cardPane.setSpacing(2);
             BaseCard card = equipped[i];
             Label cardSlotLabel;
             if (card == null) {
                 cardSlotLabel = new Label("Empty");
             } else {
-                cardSlotLabel = new Label(card.getName() + "\n[" + card.getTier() + "]");
+                ImageView imgView = new ImageView(new Image(card.getCardURL()));
+		        imgView.setFitWidth(60);
+		        imgView.setFitHeight(80);
+		        imgView.setPreserveRatio(true);
+		        Label cardLabel = new Label(card.getName() + "\n[" + card.getTier() + "]");  
+		        cardLabel.setStyle("-fx-text-alignment: center; -fx-font-size: 8;");
+		        cardPane.getChildren().addAll(cardLabel,imgView);
                
-                cardSlotLabel.setOnMouseClicked(e -> {
+		        cardPane.setOnMouseClicked(e -> {
                     if (card instanceof Activatable) {
                         
                         ((Activatable) card).activate();
@@ -155,8 +175,7 @@ public class StoryScene extends BaseScene {
                     
                 });
             }
-            cardSlotLabel.setStyle("-fx-border-color: black; -fx-padding: 5;");
-            equippedCardsBar.getChildren().add(cardSlotLabel);
+            equippedCardsBar.getChildren().add(cardPane);
         }
     }
 }

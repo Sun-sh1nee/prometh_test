@@ -11,6 +11,8 @@ import javafx.geometry.Pos;
 
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.Region;
@@ -63,7 +65,7 @@ public class HomeScene extends BaseScene {
     }
     
     private void attackMonster() {
-    	int damage = GameLogic.getPlayer().getAttackPerClick(); // Use actual damage value here
+    	int damage = (int) GameLogic.clickHandle(); // Use actual damage value here
         GameLogic.reduceMonsterHpHome(damage);
 
         // Random naja jub jub
@@ -112,15 +114,29 @@ public class HomeScene extends BaseScene {
         equippedCardsBar.getChildren().clear();
 
         BaseCard[] equipped = GameLogic.getEquippedCards();
+        
+        
+        
         for (int i = 0; i < equipped.length; i++) {
+        	VBox cardPane = new VBox();
+        	cardPane.setPrefSize(60, 80); // size for the card slot
+        	cardPane.setStyle("-fx-border-color: black; -fx-border-width: 1; "
+	                        + "-fx-alignment: top_center; -fx-background-color: #eeeeee;");
+        	cardPane.setSpacing(2);
             BaseCard card = equipped[i];
             Label cardSlotLabel;
             if (card == null) {
                 cardSlotLabel = new Label("Empty");
             } else {
-                cardSlotLabel = new Label(card.getName() + "\n[" + card.getTier() + "]");
+                ImageView imgView = new ImageView(new Image(card.getCardURL()));
+		        imgView.setFitWidth(60);
+		        imgView.setFitHeight(80);
+		        imgView.setPreserveRatio(true);
+		        Label cardLabel = new Label(card.getName() + "\n[" + card.getTier() + "]");  
+		        cardLabel.setStyle("-fx-text-alignment: center; -fx-font-size: 8;");
+		        cardPane.getChildren().addAll(cardLabel,imgView);
                
-                cardSlotLabel.setOnMouseClicked(e -> {
+		        cardPane.setOnMouseClicked(e -> {
                     if (card instanceof Activatable) {
                         
                         ((Activatable) card).activate();
@@ -128,8 +144,7 @@ public class HomeScene extends BaseScene {
                     
                 });
             }
-            cardSlotLabel.setStyle("-fx-border-color: black; -fx-padding: 5;");
-            equippedCardsBar.getChildren().add(cardSlotLabel);
+            equippedCardsBar.getChildren().add(cardPane);
         }
     }
     

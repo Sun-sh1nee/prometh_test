@@ -65,9 +65,9 @@ public class GameLogic {
 		setStage(1);
 		setDamagePerSec(0);
 		
-			ownedCards.add(new GlassCannon("testC", "", CardTier.EPIC));
-			ownedCards.add(new BigBangImpactCard("testB", "", CardTier.LEGENDARY));
-			ownedCards.add(new BuffStatCard("testBS", "", CardTier.LEGENDARY));
+			ownedCards.add(new GlassCannon("testC", "cards/buffCard/default.png", CardTier.EPIC));
+			ownedCards.add(new BigBangImpactCard("testBadsdsadsa", "cards/specialCard/attackCard.png", CardTier.LEGENDARY));
+			ownedCards.add(new BuffStatCard("testBSdasdsa", "cards/specialCard/attackCard.png", CardTier.LEGENDARY));
 		
 		
 		initMonster();
@@ -123,7 +123,6 @@ public class GameLogic {
 	        ((BuffStatCard) newCard).applyBuff();
 	    }
 	    
-	    // If you need to do anything else (like re-calc stats), do it here
 	}
 //	========================================================
 	
@@ -418,13 +417,13 @@ public class GameLogic {
 	public static void reduceMonsterHpHome(double amount) {
 		
 		
-		if(damageCardBoost > 0)amount *= damageCardBoost;
-		Random random = new Random();
-		double critRate = player.getCritRate() + critChanceCardBoost;
-		if (random.nextDouble(100) < critRate) {
-			amount *= (player.getCritDamage() + critDamageCardBoost);
-		}
-		if(extraDamage > 0)amount *= (1 + (extraDamage/100.0));
+//		if(damageCardBoost > 0)amount *= damageCardBoost;
+//		Random random = new Random();
+//		double critRate = player.getCritRate() + critChanceCardBoost;
+//		if (random.nextDouble(100) < critRate) {
+//			amount *= (player.getCritDamage() + critDamageCardBoost);
+//		}
+//		if(extraDamage > 0)amount *= (1 + (extraDamage/100.0));
 		
 		monsterHpHome.set(monsterHpHome.get() - amount);
 		if (monsterHpHome.get() <= 0) {
@@ -433,13 +432,14 @@ public class GameLogic {
 	}
 
 	public static void reduceMonsterHpStory(double amount) {
-		if(damageCardBoost > 0)amount *= damageCardBoost;
-		Random random = new Random();
-		double critRate = player.getCritRate() + critChanceCardBoost;
-		if (random.nextDouble(100) < critRate) {
-			amount *= (player.getCritDamage() + critDamageCardBoost);
-		}
-		if(extraDamage > 0)amount *= (1 + (extraDamage/100.0));
+//		if(damageCardBoost > 0)amount *= damageCardBoost;
+//		Random random = new Random();
+//		double critRate = player.getCritRate() + critChanceCardBoost;
+//		if (random.nextDouble(100) < critRate) {
+//			amount *= (player.getCritDamage() + critDamageCardBoost);
+//		}
+//		if(extraDamage > 0)amount *= (1 + (extraDamage/100.0));
+		
 	    monsterHpStory.set(monsterHpStory.get() - amount);
 	    if (monsterHpStory.get() <= 0) {
 	    	monsterIsDead();
@@ -447,15 +447,17 @@ public class GameLogic {
 	}
 	
 
-//	public static void clickHandle() {
-//		double damage = attackPerClick.get();
-//		Random random = new Random();
-//        if (random.nextDouble(100) < player.getCritRate()) {
-//        	damage *= player.getCritDamage();
-//        }
-//		
-//		reduceMonsterHpHome(damage);
-//	}
+	public static double clickHandle() {
+		int amount = player.getAttackPerClick();
+		if(damageCardBoost > 0)amount *= damageCardBoost;
+		Random random = new Random();
+		double critRate = player.getCritRate() + critChanceCardBoost;
+		if (random.nextDouble(100) < critRate) {
+			amount *= (player.getCritDamage() + critDamageCardBoost);
+		}
+		if(extraDamage > 0)amount *= (1 + (extraDamage/100.0));
+		return amount ;
+	}
   
 	public static void startDpsHome() {
 		if (dpsHomeThread != null) {
