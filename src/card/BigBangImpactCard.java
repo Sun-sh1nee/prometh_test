@@ -11,10 +11,10 @@ import logic.GameLogic;
 public class BigBangImpactCard extends BaseCard implements Activatable{
 	
 	private double damagePerHit;
-	private boolean isOnCooldown = false;
 	public BigBangImpactCard(String name , String image , CardTier tier) {
 		super(name, image, tier);
 		randomizeAttributes();
+		cooldown = 20;
 	}
 	
 	private void randomizeAttributes() {
@@ -31,7 +31,7 @@ public class BigBangImpactCard extends BaseCard implements Activatable{
 	        	damagePerHit = random.nextDouble() * 50 + 200;     
 	            break;
 	        }case LEGENDARY: {   
-	        	damagePerHit = random.nextDouble() * 10000 + 200;      
+	        	damagePerHit = random.nextDouble() * 100000 + 200;      
 	            break;
 	        }
         }
@@ -62,6 +62,10 @@ public class BigBangImpactCard extends BaseCard implements Activatable{
 		
 		return String.format("Card: %s [%s Tier]\n- Deals: %.2f%% of the damage per click to enemy \n-cooldown: 20sec",
 	            name, tier, damagePerHit);
+	}
+
+	public boolean isOnCooldown() {
+		return isOnCooldown;
 	}
 
 }

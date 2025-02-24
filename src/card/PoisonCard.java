@@ -10,11 +10,11 @@ import logic.GameLogic;
 public class PoisonCard extends BaseCard implements Activatable{
 	
 	private double dotDamage;
-	private boolean isOnCooldown;
 	
 	public PoisonCard(String name , String image , CardTier tier) {
 		super(name, image, tier);
 		randomizeAttributes();
+		cooldown = 7;
 	}
 	
 	private void randomizeAttributes() {

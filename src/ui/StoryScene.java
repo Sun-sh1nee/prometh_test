@@ -104,7 +104,7 @@ public class StoryScene extends BaseScene {
         damageText.setRotate(randomRotation);
         damageText.setScaleX(randomSize / 20);
         damageText.setScaleY(randomSize / 20);
-
+        damageText.setOnMouseClicked(e -> attackMonster());
         bodyContainer.getChildren().add(damageText);
         TranslateTransition moveUp = new TranslateTransition(Duration.millis(600), damageText);
         moveUp.setByY(-30);
@@ -139,43 +139,66 @@ public class StoryScene extends BaseScene {
     
     public void updateEquippedCardsBar() {
 //        equippedCardsBar.getChildren().clear();
-    	equippedCardsBar = new HBox(10);
+        equippedCardsBar = new HBox(10);
         equippedCardsBar.setPadding(new Insets(10));
         equippedCardsBar.setSpacing(20);
         equippedCardsBar.setAlignment(Pos.CENTER);
-        
         BaseCard[] equipped = GameLogic.getEquippedCards();
         
-        
-        
-        for (int i = 0; i < equipped.length; i++) {
-        	VBox cardPane = new VBox();
-        	cardPane.setPrefSize(60, 80); // size for the card slot
-        	cardPane.setStyle("-fx-border-color: black; -fx-border-width: 1; "
-	                        + "-fx-alignment: top_center; -fx-background-color: #eeeeee;");
-        	cardPane.setSpacing(2);
-            BaseCard card = equipped[i];
-            Label cardSlotLabel;
-            if (card == null) {
-                cardSlotLabel = new Label("Empty");
-            } else {
+        for (BaseCard card : equipped) {
+            VBox cardPane = new VBox();
+            cardPane.setPrefSize(80, 125); 
+            cardPane.setStyle("-fx-border-color: black; -fx-border-width: 2px; "
+                            + "-fx-alignment: top_center; -fx-background-color: #eeeeee;");
+            cardPane.setSpacing(2);
+
+            if (card != null) {
+                cardPane.setStyle("-fx-border-width: 2px; "
+                        + "-fx-alignment: top_center; -fx-background-color: #eeeeee;"
+                        + "-fx-border-color: " + card.getTierStyle() + ";");
+
                 ImageView imgView = new ImageView(new Image(card.getCardURL()));
-		        imgView.setFitWidth(60);
-		        imgView.setFitHeight(80);
-		        imgView.setPreserveRatio(true);
-		        Label cardLabel = new Label(card.getName() + "\n[" + card.getTier() + "]");  
-		        cardLabel.setStyle("-fx-text-alignment: center; -fx-font-size: 8;");
-		        cardPane.getChildren().addAll(cardLabel,imgView);
+                imgView.setFitWidth(60);
+                imgView.setFitHeight(80);
+                imgView.setPreserveRatio(true);
+
+                Label cardLabel = new Label(card.getName() + "\n[" + card.getTier() + "]");
+                cardLabel.setStyle("-fx-text-alignment: center; -fx-font-size: 8;");
+                
                
-		        cardPane.setOnMouseClicked(e -> {
-                    if (card instanceof Activatable) {
-                        
-                        ((Activatable) card).activate();
-                    }
+                ProgressBar cooldownBar = new ProgressBar(1);
+                cooldownBar.setPrefWidth(60);
+                cooldownBar.setVisible(false);  
+                cooldownBar.setStyle("-fx-accent: green;");
+                
+                cardPane.getChildren().addAll(cardLabel, imgView, cooldownBar);
+                if (card instanceof Activatable) {
+                	cardPane.setOnMouseClicked(e -> {
                     
-                });
+                        Activatable activatableCard = (Activatable) card;
+                        
+                        if (!((Activatable) card).isOnCooldown()) { 
+                            activatableCard.activate();
+                            startCooldownAnimation(cooldownBar, ((BaseCard) card).getCooldown());
+                        }
+                    
+                	});
+                }
             }
+
             equippedCardsBar.getChildren().add(cardPane);
         }
+    }
+
+    private void startCooldownAnimation(ProgressBar cooldownBar, int cooldownSeconds) {
+        cooldownBar.setVisible(true);
+        cooldownBar.setProgress(1.0);
+
+        Timeline cooldownTimeline = new Timeline(
+            new KeyFrame(Duration.seconds(cooldownSeconds), new KeyValue(cooldownBar.progressProperty(), 0))
+        );
+
+        cooldownTimeline.setOnFinished(e -> cooldownBar.setVisible(false)); // Hide after cooldown
+        cooldownTimeline.play();
     }
 }

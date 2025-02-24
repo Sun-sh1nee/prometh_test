@@ -17,7 +17,7 @@ public class Companion {
 //		this.companionURL = ClassLoader.getSystemResource(image).toString();
 		
 	}
-	
+
 	public void upgrade() {
 		this.setAttackPerSec((int) (attackPerSec * scalFacCompanion));
 		this.setCostCompanion((int) (costCompanion * scalFacPrice));

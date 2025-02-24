@@ -38,7 +38,7 @@ public class SceneManager {
                 HomeScene homeScene = (HomeScene) scenes.get("HOME").getRoot();
                 homeScene.updateEquippedCardsBar();
             }
-            if (name.equals("CARD_INVENTORY")) {
+            if (name.equals("CARD_EQUIPMENT")) {
                 CardInventoryScene inventoryScene = (CardInventoryScene) scenes.get("CARD_INVENTORY").getRoot();
                 inventoryScene.updateEquippedCardsInventory();
             }

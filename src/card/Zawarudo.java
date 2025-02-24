@@ -37,6 +37,9 @@ public class Zawarudo extends BaseCard implements Activatable{
 //		zawarudooooo
 	    
 	}
+	public boolean isOnCooldown() {
+		return isOnCooldown;
+	}
 	@Override
 	public String toString() {
 		return String.format("Card: %s [%s Tier]\n- stop time for : %.2f%%  \n-cooldown: 15sec",

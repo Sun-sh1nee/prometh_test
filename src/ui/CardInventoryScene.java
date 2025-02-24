@@ -1,6 +1,8 @@
 package ui;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -89,8 +91,11 @@ public class CardInventoryScene extends BaseScene {
     	VBox cardPane = new VBox();
         cardPane.setPrefSize(80, 100);
         cardPane.setSpacing(2);
-        cardPane.setStyle("-fx-border-color: transparent; -fx-border-color: black; -fx-background-color: transparent; -fx-alignment: top_center;");
-        
+        cardPane.setStyle("-fx-background-color: transparent; " +
+                "-fx-alignment: top_center; " +
+                "-fx-border-width: 3px; " +
+                "-fx-border-color: " + card.getTierStyle()  + ";"+
+                "-fx-text-fill: black;");
         ImageView imgView = new ImageView(new Image(card.getCardURL()));
         imgView.setFitWidth(60);
         imgView.setFitHeight(80);
@@ -120,23 +125,29 @@ public class CardInventoryScene extends BaseScene {
     }
     
     public void updateEquippedCardsInventory() {
+    	
     	 cardsPane.getChildren().clear();
     	 ArrayList<BaseCard> ownedCards = GameLogic.getOwnedCards();
          BaseCard[] equippedCardsAry = GameLogic.getEquippedCards(); 
-
-         ArrayList<BaseCard> equippedCards = new ArrayList<>();
-         for (BaseCard equip : equippedCardsAry) {
-             equippedCards.add(equip);
-         }
-
-         for (BaseCard card : ownedCards) {
-   
-             if (!equippedCards.contains(card)) { 
-             	VBox cardView = createCardView(card);
-                 cardsPane.getChildren().add(cardView);
-             }
-         }
+         Thread th = new Thread(() -> {
+        	 Collections.sort(ownedCards);
+	         ArrayList<BaseCard> equippedCards = new ArrayList<>();
+	         for (BaseCard equip : equippedCardsAry) {
+	             equippedCards.add(equip);
+	         }
+	
+	         for (BaseCard card : ownedCards) {
+	   
+	             if (!equippedCards.contains(card)) { 
+	             	VBox cardView = createCardView(card);
+	                 cardsPane.getChildren().add(cardView);
+	             }
+	         }
+	         });
+         th.start();
     }
+    
+    
     
     
 }

@@ -9,10 +9,10 @@ import logic.GameLogic;
 
 public class WeakPointCard extends BaseCard implements Activatable{
 	private double extraBoost;
-	private boolean isOnCooldown = false;
 	public WeakPointCard(String name , String image , CardTier tier) {
 		super(name, image, tier);
 		randomizeAttributes();
+		cooldown = 7;
 	}
 	
 	private void randomizeAttributes() {

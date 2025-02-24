@@ -56,36 +56,33 @@ public class GameLogic {
 	private static double companionBoostCardBoost;
 	private static double extraDamage;
 	private static SimpleBooleanProperty isMusic = new SimpleBooleanProperty(true);
-    private static AudioClip backgroundSound;
+	private static AudioClip backgroundSound;
 //    =================
-    private static BaseCard[] equippedCards = new BaseCard[4]; 
-    private static ArrayList<BaseCard> ownedCards = new ArrayList<>();
+	private static BaseCard[] equippedCards = new BaseCard[4];
+	private static ArrayList<BaseCard> ownedCards = new ArrayList<>();
+
 //    =================
-	public static void init() {		
+	public static void init() {
 		setStage(1);
 		setDamagePerSec(0);
 
-		
 //			ownedCards.add(new GlassCannon("testC", "cards/buffCard/default.png", CardTier.EPIC));
 //			ownedCards.add(new BigBangImpactCard("testBadsdsadsa", "cards/specialCard/attackCard.png", CardTier.LEGENDARY));
 //			ownedCards.add(new BuffStatCard("testBSdasdsa", "cards/specialCard/attackCard.png", CardTier.LEGENDARY));
 //		
 
-		
 		initMonster();
 		initCompanion();
-		//monsterHome = new Monster(200, 50, 1, 1, 1, null);
+		// monsterHome = new Monster(200, 50, 1, 1, 1, null);
 		monsterHome = monsterStory.get(0);
 		monsterHpHome.set(monsterHome.getMonsterHp());
 		monsterHpStory.set(monsterStory.get(1).getMonsterHp());
-		
-		croissantCount.set(2000000000);  // can change in gamelogic
-		gemCount.set(2000000);		// can change in gamelogic
+
+		croissantCount.set(2000000000); // can change in gamelogic
+		gemCount.set(2000000); // can change in gamelogic
 		setattackPerClick();
 		setattackPerSec();
 		musicSetting.set("ON"); // not finish
-		
-		
 
 		damageCardBoost = 0;
 		gemDropChanceCardBoost = 0;
@@ -96,77 +93,75 @@ public class GameLogic {
 		isStoryBattle = false;
 
 		setStoryState();
-		
+
 		startDpsHome();
 	}
-	
+
 //	========================================================
 	public static BaseCard[] getEquippedCards() {
-	    return equippedCards;
+		return equippedCards;
 	}
 
 	public static ArrayList<BaseCard> getOwnedCards() {
-	    return ownedCards;
+		return ownedCards;
 	}
 
-	
 	public static void equipCard(BaseCard newCard, int slotIndex) {
-	    // 1) If there's already a card in that slot, cancel its buff if it's a BuffStatCard
-	    BaseCard oldCard = equippedCards[slotIndex];
-	    if (oldCard instanceof BuffStatCard) {
-	        ((BuffStatCard) oldCard).CancelBuff();
-	    }
-	    
-	    // 2) Place the new card in the slot
-	    equippedCards[slotIndex] = newCard;
-	    
-	    // 3) If newCard is a BuffStatCard, apply the buff
-	    if (newCard instanceof BuffStatCard) {
-	        ((BuffStatCard) newCard).applyBuff();
-	    }
-	    
+		// 1) If there's already a card in that slot, cancel its buff if it's a
+		// BuffStatCard
+		BaseCard oldCard = equippedCards[slotIndex];
+		if (oldCard instanceof BuffStatCard) {
+			((BuffStatCard) oldCard).CancelBuff();
+		}
+
+		// 2) Place the new card in the slot
+		equippedCards[slotIndex] = newCard;
+
+		// 3) If newCard is a BuffStatCard, apply the buff
+		if (newCard instanceof BuffStatCard) {
+			((BuffStatCard) newCard).applyBuff();
+		}
+
 	}
 //	========================================================
-	
-	
+
 	public static void playBackgroundSound() {
-        if (backgroundSound == null) {
-            String backgroundURL = ClassLoader.getSystemResource("sounds/backgroundSound.mp3").toString();
-            backgroundSound = new AudioClip(backgroundURL);
-            backgroundSound.setCycleCount(AudioClip.INDEFINITE);
-            backgroundSound.setVolume(0.1);
-        }
+		if (backgroundSound == null) {
+			String backgroundURL = ClassLoader.getSystemResource("sounds/backgroundSound.mp3").toString();
+			backgroundSound = new AudioClip(backgroundURL);
+			backgroundSound.setCycleCount(AudioClip.INDEFINITE);
+			backgroundSound.setVolume(0.1);
+		}
 
-        if (isMusic.get()) {
-            backgroundSound.play();
-        } else {
-            backgroundSound.stop();
-        }
-    }
+		if (isMusic.get()) {
+			backgroundSound.play();
+		} else {
+			backgroundSound.stop();
+		}
+	}
 
-    public static BooleanProperty isMusicProperty() {
-        return isMusic;
-    }
+	public static BooleanProperty isMusicProperty() {
+		return isMusic;
+	}
 
-    public static boolean isMusicOn() {
-        return isMusic.get();
-    }
+	public static boolean isMusicOn() {
+		return isMusic.get();
+	}
 
-    public static void setMusic(boolean value) {
-        isMusic.set(value);
-        playBackgroundSound(); // ✅ Update music state immediately
-    }
+	public static void setMusic(boolean value) {
+		isMusic.set(value);
+		playBackgroundSound(); // ✅ Update music state immediately
+	}
 
-    public static void toggleMusic() {
-        setMusic(!isMusic.get()); // ✅ Toggle and update
-    }
-	
+	public static void toggleMusic() {
+		setMusic(!isMusic.get()); // ✅ Toggle and update
+	}
+
 	public static void startStoryMode() {
 		monsterHpStory.set(monsterStory.get(getStage()).getMonsterHp());
 		startDpsStory();
 		startTimer();
 	}
-	
 
 	public static boolean isStoryBattle() {
 		return isStoryBattle;
@@ -175,7 +170,7 @@ public class GameLogic {
 	public static void setStoryBattle(boolean isStoryBattle) {
 		GameLogic.isStoryBattle = isStoryBattle;
 	}
-	
+
 	public static double getextraDamage() {
 		return extraDamage;
 	}
@@ -187,7 +182,6 @@ public class GameLogic {
 	public static void CancelextraDamage(double decrease) {
 		GameLogic.extraDamage -= decrease;
 	}
-
 
 	public static double getDamageCardBoost() {
 		return damageCardBoost;
@@ -252,27 +246,27 @@ public class GameLogic {
 	private static void startTimer() {
 		int totalTime = 5;
 		isStoryBattle = true;
-	    new Thread(()->{
-	    	double timeNow = totalTime;
-	    	while(timeNow>0) {
-	    		try {
-	    			if(!SceneManager.getSceneName().equals("STORY")) {
-	    				isStoryBattle = false;
-	    				return;
-	    			}
-	    			double progress = timeNow/totalTime;
-	    			Platform.runLater(() -> storyTimerProgress.set(progress));
-	    			
-	    			timeNow-=0.1;
-	    			Thread.sleep(100);
-	    		} catch (InterruptedException e1) {
-	    			Thread.currentThread().interrupt();
-	    			e1.printStackTrace();
-	    		}
-	    	}
-	    	isStoryBattle = false;
-	    	Platform.runLater(() -> SceneManager.switchTo("HOME"));
-	    }).start();
+		new Thread(() -> {
+			double timeNow = totalTime;
+			while (timeNow > 0) {
+				try {
+					if (!SceneManager.getSceneName().equals("STORY")) {
+						isStoryBattle = false;
+						return;
+					}
+					double progress = timeNow / totalTime;
+					Platform.runLater(() -> storyTimerProgress.set(progress));
+
+					timeNow -= 0.1;
+					Thread.sleep(100);
+				} catch (InterruptedException e1) {
+					Thread.currentThread().interrupt();
+					e1.printStackTrace();
+				}
+			}
+			isStoryBattle = false;
+			Platform.runLater(() -> SceneManager.switchTo("HOME"));
+		}).start();
 	}
 
 	private static void TimerCountDown() {
@@ -287,12 +281,12 @@ public class GameLogic {
 			int hpBase = i * 1000;
 			int coinBase = i * 100;
 			double coinScal = 1;
-			double hpScal = 1;
+			double hpScal = 1.3;
 			monsterStory.add(new Monster(hpBase, coinBase, i, hpScal, coinScal, null));
 
 		}
 	}
-	
+
 	public static SimpleLongProperty getCroissantCount() {
 		return croissantCount;
 	}
@@ -304,12 +298,12 @@ public class GameLogic {
 	public static Monster getMonster() {
 
 		if (SceneManager.getSceneName().equals("HOME")) {
-			return getMonsterStage(stage-1);
+			return getMonsterStage(stage - 1);
 		} else if (SceneManager.getSceneName().equals("STORY")) {
 			return getMonsterStage(stage);
-		} 
+		}
 		return monsterStory.get(0);
-		
+
 	}
 
 	private static void initCompanion() {
@@ -350,15 +344,15 @@ public class GameLogic {
 		}
 		haveCompanion[index] = true;
 	}
-	
-	
+
 	public static SimpleLongProperty croissantCountProperty() {
 		return croissantCount;
 	}
-	
+
 	public static SimpleLongProperty gemCountProperty() {
 		return gemCount;
 	}
+
 	public static void addCroissants(long amount) {
 		croissantCount.set(croissantCount.get() + amount);
 	}
@@ -366,68 +360,64 @@ public class GameLogic {
 	public static SimpleDoubleProperty monsterHpHomeProperty() {
 		return monsterHpHome;
 	}
-	
+
 	public static SimpleDoubleProperty monsterHpStoryProperty() {
 		return monsterHpStory;
 	}
-	
+
 	public static SimpleIntegerProperty attackPerClickProperty() {
 		return attackPerClick;
 	}
-	
+
 	public static SimpleIntegerProperty storyStateProperty() {
 		return storyState;
 	}
-	
+
 	public static SimpleDoubleProperty storyTimerProgressProperty() {
-	    return storyTimerProgress;
+		return storyTimerProgress;
 	}
 
-	
 	public static Monster getMonsterStage(int index) {
-		if ((index >= 30 || index < 0) ) {
+		if ((index >= 30 || index < 0)) {
 			System.out.println("monster stage index out of bound");
 			return null;
 		}
 		return monsterStory.get(index);
 	}
-	
-	
 
 	public static void monsterIsDead() {
 		if (SceneManager.getSceneName().equals("STORY")) {
-			
-			if (stage >= monsterStory.size()) {
-	            System.out.println("🎉 Story Completed! Returning to Home...");
-	            SceneManager.switchTo("HOME"); 
-	            return;
-	        }
 
-	        // Proceed to the next stage
+			if (stage >= monsterStory.size()) {
+				System.out.println("🎉 Story Completed! Returning to Home...");
+				SceneManager.switchTo("HOME");
+				return;
+			}
+
+			// Proceed to the next stage
 			monsterHome = monsterStory.get(stage);
 			monsterHpHome.set(monsterHpStoryProperty().get());
-	        stage++;
-	        setStoryState();
-	        // monsterHpStory.set(monsterStory.get(stage).getMonsterHp());
-	        monsterHpStory.set(getMonster().getMonsterHp());
-	        // monsterHpHome.set(monsterStory.get(stage - 1).getMonsterHp());
-	        gemCount.set(gemCount.get() + 2);
-	        SceneManager.switchTo("HOME"); 
-	        SceneManager.updateHomeScene();
+			stage++;
+			setStoryState();
+			// monsterHpStory.set(monsterStory.get(stage).getMonsterHp());
+			monsterHpStory.set(getMonster().getMonsterHp());
+			// monsterHpHome.set(monsterStory.get(stage - 1).getMonsterHp());
+			gemCount.set(gemCount.get() + 2);
+			SceneManager.switchTo("HOME");
+			SceneManager.updateHomeScene();
 		} else {
 			monsterHpHome.set(getMonster().getMonsterHp());
 			addCroissants(monsterHome.getCoinDrop());
-			
+
 			Random random = new Random();
-	        if (random.nextDouble() < player.getChanceToDropGem()) {
-	        	gemCount.set(gemCount.get() + 1);
-	        }
+			if (random.nextDouble() < player.getChanceToDropGem()) {
+				gemCount.set(gemCount.get() + 1);
+			}
 		}
 	}
 
 	public static void reduceMonsterHpHome(double amount) {
-		
-		
+
 //		if(damageCardBoost > 0)amount *= damageCardBoost;
 //		Random random = new Random();
 //		double critRate = player.getCritRate() + critChanceCardBoost;
@@ -435,11 +425,12 @@ public class GameLogic {
 //			amount *= (player.getCritDamage() + critDamageCardBoost);
 //		}
 //		if(extraDamage > 0)amount *= (1 + (extraDamage/100.0));
-		
+
 		monsterHpHome.set(monsterHpHome.get() - amount);
 		if (monsterHpHome.get() <= 0) {
 			monsterIsDead();
 		}
+
 	}
 
 	public static void reduceMonsterHpStory(double amount) {
@@ -450,34 +441,35 @@ public class GameLogic {
 //			amount *= (player.getCritDamage() + critDamageCardBoost);
 //		}
 //		if(extraDamage > 0)amount *= (1 + (extraDamage/100.0));
-		
-	    monsterHpStory.set(monsterHpStory.get() - amount);
-	    if (monsterHpStory.get() <= 0) {
-	    	monsterIsDead();
-	    }
+
+		monsterHpStory.set(monsterHpStory.get() - amount);
+		if (monsterHpStory.get() <= 0) {
+			monsterIsDead();
+		}
 	}
-	
 
 	public static double clickHandle() {
 		int amount = player.getAttackPerClick();
-		if(damageCardBoost > 0)amount *= damageCardBoost;
+		if (damageCardBoost > 0)
+			amount *= damageCardBoost;
 		Random random = new Random();
 		double critRate = player.getCritRate() + critChanceCardBoost;
 		if (random.nextDouble(100) < critRate) {
 			amount *= (player.getCritDamage() + critDamageCardBoost);
 		}
-		if(extraDamage > 0)amount *= (1 + (extraDamage/100.0));
-		return amount ;
+		if (extraDamage > 0)
+			amount *= (1 + (extraDamage / 100.0));
+		return amount;
 	}
-  
+
 	public static void startDpsHome() {
 		if (dpsHomeThread != null) {
 			dpsHomeThread.stop();
 		}
 
 		dpsHomeThread = new Timeline(new KeyFrame(Duration.seconds(0.1), e -> {
-			double dam = getDamagePerSec() * (1+(companionBoostCardBoost/100));
-			reduceMonsterHpHome(dam*0.1);
+			double dam = getDamagePerSec() * (1 + (companionBoostCardBoost / 100));
+			reduceMonsterHpHome(dam * 0.1);
 		}));
 		dpsHomeThread.setCycleCount(Timeline.INDEFINITE);
 		dpsHomeThread.play();
@@ -486,52 +478,52 @@ public class GameLogic {
 	public static void startDpsStory() {
 		if (dpsStoryThread != null) {
 			dpsStoryThread.stop();
-			
+
 		}
 		if (dpsHomeThread != null) {
 			dpsHomeThread.stop();
 		}
 		dpsStoryThread = new Timeline(new KeyFrame(Duration.seconds(0.1), e -> {
-			double dam = getDamagePerSec() * (1+(companionBoostCardBoost/100)); 
-			reduceMonsterHpStory(dam*0.1);
+			double dam = getDamagePerSec() * (1 + (companionBoostCardBoost / 100));
+			reduceMonsterHpStory(dam * 0.1);
 		}));
 		dpsStoryThread.setCycleCount(Timeline.INDEFINITE);
 		dpsStoryThread.play();
-		
-		
+
 	}
 
 	public static Player getPlayer() {
 		return player;
 	}
-	
+
 	public static int getDamagePerSec() {
 		return damagePerSec;
 	}
-	
+
 	public static void setDamagePerSec(int damage) {
 		damagePerSec = damage;
 	}
-	
+
 	public static int getStage() {
 		return stage;
 	}
-	
+
 	public static void setStage(int stageNow) {
 		stage = stageNow;
 	}
-	
+
 	public static void setattackPerClick() {
-	    attackPerClick.set(player.getAttackPerClick());
+		attackPerClick.set(player.getAttackPerClick());
 	}
-
-
-
-	
+	public static boolean reduceGemCount(int amount) {
+		if(gemCountProperty().get() < amount) return false;
+		gemCount.set(gemCountProperty().get() - amount);
+		return true;
+	}
 	public static void setattackPerSec() {
 		attackPerSec.set(getDamagePerSec());
 	}
-	
+
 	public static void setStoryState() {
 		storyState.set(stage);
 	}

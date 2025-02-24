@@ -10,10 +10,10 @@ import logic.GameLogic;
 public class HeavyHiterCard extends BaseCard implements Activatable{
 	
 	private double damagePerHit;
-	private boolean isOnCooldown = false;
 	public HeavyHiterCard(String name , String image , CardTier tier) {
 		super(name, image, tier);
 		randomizeAttributes();
+		cooldown = 15;
 	}
 	
 	private void randomizeAttributes() {

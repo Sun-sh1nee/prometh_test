@@ -9,10 +9,10 @@ import logic.GameLogic;
 
 public class BullsEyeCard extends BaseCard implements Activatable{
 	private double critChanceBoost;
-	private boolean isOnCooldown = false;
 	public BullsEyeCard(String name , String image , CardTier tier) {
 		super(name, image, tier);
 		randomizeAttributes();
+		cooldown = 6;
 	}
 	
 	private void randomizeAttributes() {

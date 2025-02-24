@@ -9,10 +9,10 @@ import logic.GameLogic;
 
 public class GlassCannon extends BaseCard implements Activatable{
 	private double critDamageBoost;
-	private boolean isOnCooldown = false;
 	public GlassCannon(String name , String image , CardTier tier) {
 		super(name, image, tier);
 		randomizeAttributes();
+		cooldown = 6;
 	}
 	
 	private void randomizeAttributes() {
