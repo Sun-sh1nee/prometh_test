@@ -12,7 +12,7 @@ public class CritRateItem extends Item {
 		super("CritRateItem", 500, itemURL);
 		
 		setcritChance(1.3);
-		setScalFacCost(1.001);
+		setScalFacCost(1.02);
 		setScalFacStatus(1.3);
 	}
 
@@ -26,7 +26,7 @@ public class CritRateItem extends Item {
 	public void upgrade() {
 		this.setLevelItem(levelItem.get()+1);
 		setcritChance(getCritChance() + getScalFacStatus());
-		setCostItem((int)(getCostItem().get() * (1 + getScalFacCost())));		
+		setCostItem((int)(getCostItem().get() * (getScalFacCost())));		
 	}
 
 	public double getCritChance() {

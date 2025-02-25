@@ -12,9 +12,9 @@ public class ChanceToDropGemItem extends Item {
 	public ChanceToDropGemItem(String itemURL) {
 		super("ChanceToDropGemItem", 1000, itemURL);
 		
-		setChanceToDropGem(0.1);
-		setScalFacCost(0.01);
-		setScalFacStatus(0.40);
+		setChanceToDropGem(0.01);
+		setScalFacCost(1.02);
+		setScalFacStatus(0.01);
 		
 	}
 
@@ -28,7 +28,7 @@ public class ChanceToDropGemItem extends Item {
 	public void upgrade() {
 		this.setLevelItem(levelItem.get()+1);
 		setChanceToDropGem(getChanceToDropGem() + getScalFacStatus());
-		setCostItem((int)(getCostItem().get() * (1 + getScalFacCost())));
+		setCostItem((int)(getCostItem().get() * (getScalFacCost())));
 		updateStat();
 	}
 

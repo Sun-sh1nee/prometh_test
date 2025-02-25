@@ -12,7 +12,7 @@ public class CritDamageItem extends Item {
 		super("CritDamageItem", 750, itemURL);
 		
 		setCritDamage(1.5);
-		setScalFacCost(1.001);
+		setScalFacCost(1.02);
 		setScalFacStatus(1.35);
 	}
 
@@ -26,7 +26,7 @@ public class CritDamageItem extends Item {
 	public void upgrade() {
 		this.setLevelItem(levelItem.get()+1);
 		setCritDamage(getCritDamage() + getScalFacStatus());
-		setCostItem((int)(getCostItem().get() * (1 + getScalFacCost())));
+		setCostItem((int)(getCostItem().get() * (getScalFacCost())));
 	}
 
 	public double getCritDamage() {
