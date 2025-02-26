@@ -7,12 +7,11 @@ import javafx.animation.Timeline;
 import javafx.util.Duration;
 import logic.GameLogic;
 
-public class FriendshipIsMagicCard extends BaseCard implements Activatable{
+public class FriendshipIsMagicCard extends ActivateCard implements Activatable{
 	private double companionBoost;
 	public FriendshipIsMagicCard(String name , String image , CardTier tier) {
-		super(name, image, tier);
+		super(name, image, tier , 6);
 		randomizeAttributes();
-		cooldown = 6;
 	}
 	private void randomizeAttributes() {
         Random random = new Random();

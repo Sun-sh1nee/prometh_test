@@ -12,9 +12,9 @@ public class ChanceToDropGemItem extends Item {
 	public ChanceToDropGemItem(String itemURL) {
 		super("ChanceToDropGemItem", 1000, itemURL);
 		
-		setChanceToDropGem(0.1);
-		setScalFacCost(0.01);
-		setScalFacStatus(0.40);
+		setChanceToDropGem(0.01);
+		setScalFacCost(0.28);
+		setScalFacStatus(0.005);
 		
 	}
 

@@ -7,13 +7,12 @@ import javafx.animation.Timeline;
 import javafx.util.Duration;
 import logic.GameLogic;
 
-public class HeavyHiterCard extends BaseCard implements Activatable{
+public class HeavyHiterCard extends ActivateCard implements Activatable{
 	
 	private double damagePerHit;
 	public HeavyHiterCard(String name , String image , CardTier tier) {
-		super(name, image, tier);
+		super(name, image, tier , 15);
 		randomizeAttributes();
-		cooldown = 15;
 	}
 	
 	private void randomizeAttributes() {
