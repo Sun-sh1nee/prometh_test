@@ -10,10 +10,11 @@ public class CritRateItem extends Item {
 	
 	public CritRateItem(String itemURL) {
 		super("CritRateItem", 500, itemURL);
-		
+
 		setcritChance(0.20);
 		setScalFacCost(0.17);
 		setScalFacStatus(0.01);
+
 	}
 
 	@Override
@@ -28,6 +29,7 @@ public class CritRateItem extends Item {
 		setcritChance(getCritChance() + getScalFacStatus());
 		setCostItem((int)(getCostItem().get() * (1 + getScalFacCost())));	
 		updateStat();
+
 	}
 
 	public double getCritChance() {

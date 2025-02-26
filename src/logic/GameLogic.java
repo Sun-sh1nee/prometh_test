@@ -72,10 +72,12 @@ public class GameLogic {
 		monsterHpHome.set(monsterHome.getMonsterHp());
 		monsterHpStory.set(monsterStory.get(1).getMonsterHp());
 
+
 		croissantCount.set(0);
-		gemCount.set(1500);
+		gemCount.set(0);
 		setAttackPerClick();
 		setDamagePerSec();
+		
 		musicSetting.set("ON"); // not finish
 
 		damageCardBoost = 0;
@@ -274,6 +276,7 @@ public class GameLogic {
 			int coinBase = i * 100;
 			double coinScal = 1;
 			double hpScal = 1.3;
+
 			monsterStory.add(new Monster(hpBase, coinBase, i, hpScal, coinScal, null));
 
 		}
@@ -409,17 +412,20 @@ public class GameLogic {
 		monsterHpHome.set(monsterHpHome.get() - amount);
 		if (monsterHpHome.get() <= 0) {
 			monsterHomeIsDead();
-//			((HomeScene) SceneManager.getSceneNode("HOME")).updateHpMonsterHome();
 		}
 
 	}
 
 	public static void reduceMonsterHpStory(double amount) {
-		monsterHpStory.set(monsterHpStory.get() - amount);
+		monsterHpHome.set(monsterHpHome.get() - amount<=0?0:monsterHpHome.get() - amount);
 		if (monsterHpStory.get() <= 0) {
 			monsterStoryIsDead();
 		}
+
+		
 	}
+
+
 
 	public static double clickHandle() {
 		int amount = player.getAttackPerClick();
@@ -490,6 +496,7 @@ public class GameLogic {
 
 	public static void setDamagePerSec() {
 		damagePerSec.set(player.getDamagePerSec());
+
 	}
 
 	public static void setStoryState() {

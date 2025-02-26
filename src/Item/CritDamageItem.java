@@ -14,6 +14,7 @@ public class CritDamageItem extends Item {
 		setCritDamage(1.5);
 		setScalFacCost(0.19);
 		setScalFacStatus(0.05);
+
 	}
 
 	@Override
@@ -28,6 +29,7 @@ public class CritDamageItem extends Item {
 		setCritDamage(getCritDamage() + getScalFacStatus());
 		setCostItem((int)(getCostItem().get() * (1 + getScalFacCost())));
 		updateStat();
+
 	}
 
 	public double getCritDamage() {

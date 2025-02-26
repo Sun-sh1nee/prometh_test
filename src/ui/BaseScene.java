@@ -41,6 +41,7 @@ public class BaseScene extends VBox {
     	
         topBar = new HBox(10);
         topBar.setMinHeight(80);
+
         topBar.setAlignment(Pos.CENTER);
         topBar.setStyle("-fx-padding: 10px; -fx-background-color: lightgray;");
 
@@ -83,10 +84,11 @@ public class BaseScene extends VBox {
         bodyContainer = new StackPane();
         bodyContainer.setMinHeight(400);
         bodyContainer.setMaxHeight(400);
+
         VBox.setVgrow(bodyContainer, Priority.ALWAYS);
 
         navBar = new HBox(20);
-        navBar.setMinHeight(80);
+        navBar.setPrefHeight(80);
         navBar.setAlignment(Pos.CENTER);
         navBar.setStyle("-fx-padding: 10px; -fx-background-color: lightgray;");
 
